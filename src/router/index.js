@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import postlist from '@/components/view/postlist.vue'
 import searchPage from '@/components/view/searchPage.vue'
+import article from '@/components/view/article.vue'
 
 Vue.use(Router)
 
@@ -21,6 +22,10 @@ export default new Router({
       path: '/postlist/search/:keyword',
       name: 'searchPage',
       component: searchPage
-    }
+    },
+    {
+      path: '/article/:articleId' ,
+      component: article
+     }
   ]
 })

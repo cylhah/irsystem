@@ -1,7 +1,7 @@
 <template>
   <div class="app">
     <top></top>
-      <router-view :key="key"></router-view>
+      <router-view :key="key" :userId="userId"></router-view>
   </div>
 </template>
 
@@ -10,6 +10,11 @@ import top from './components/top.vue'
 export default {
   components: {
     top
+  },
+  data (){
+    return {
+      userId : 123
+    }
   },
   computed: {
     key() {
