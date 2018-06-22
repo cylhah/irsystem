@@ -3,7 +3,7 @@
         <el-col class="hotSpot">
             <el-carousel :interval="4000" indicator-position="outside" height="300px">
                 <el-carousel-item v-for="(item,index) in hotList" :key="index">
-                    <a href=""><img :src="item.imgUrl" class="hotImage"></a>
+                    <a :href="`#/article/${item.blogId}`"><img :src="item.imgUrl" class="hotImage"></a>
                     <h1>{{item.title}}</h1>
                 </el-carousel-item>
             </el-carousel>
@@ -17,6 +17,7 @@ export default {
         return{
             hotList:[
                 {
+                    blogId: 13,
                     author: '新华网',
                     title: 'CSDN日报180607——《时代变了》',
                     time: '2018-06-10 22:14:17',
@@ -24,6 +25,7 @@ export default {
                     imgUrl: '/static/hot1.jpg'
                 },
                 {
+                    blogId: 14,
                     author: '新华网',
                     title: 'request中跟路径有关的api的分析',
                     time: '2018-06-10 22:14:17',
@@ -31,6 +33,7 @@ export default {
                     imgUrl: '/static/hot2.png'
                 },
                 {
+                    blogId: 15,
                     author: '新华网',
                     title: 'Java程序员月薪达到三万，需要技术水平达到什么程度？（文末送书）',
                     time: '2018-06-10 22:14:17',

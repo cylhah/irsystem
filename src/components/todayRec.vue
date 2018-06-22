@@ -5,13 +5,13 @@
             <el-row v-for="rec in recList" :key="rec.blogId" class="rec">
                 <el-col :span="8" class="left">
                     <div class="cover">
-                            <a href="">
+                            <a :href="`#/article/${rec.blogId}`">
                                 <img :src="rec.imgUrl">
                             </a>
                     </div>
                 </el-col>
                 <el-col :span="16" class="title">
-                    <a href="">
+                    <a :href="`#/article/${rec.blogId}`">
                         {{rec.title}}
                     </a>
                 </el-col>

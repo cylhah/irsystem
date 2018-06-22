@@ -2,13 +2,13 @@
     <div class="blog">
         <el-row class="content">
             <el-col :span="8" class="cover">
-                <a href="">
+                <a :href="articleUrl">
                     <img :src="blog.imgUrl" class="blogImg">
                 </a>
             </el-col>
             <el-col :span="16" class="rightPart">
                 <p class="blogTitle">
-                    <a href="" v-html="highlightTitle"></a>
+                    <a :href="articleUrl" v-html="highlightTitle"></a>
                 </p>
                 <p class="partContent" v-html="highlightPartContent">
                 </p>
@@ -75,6 +75,9 @@ export default {
             else {
                 return this.blog.title
             }
+        },
+        articleUrl(){
+            return `#/article/${this.blog.blogId}`
         }
     },
     props: ['blog','keyword']
