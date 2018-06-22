@@ -26,10 +26,8 @@ export default {
   data(){
     return {
       type: this.$route.params.type,
-      activeIndex: '',
+      activeIndex: '1',
       screenWidth: null,
-      left1 : '',
-      left2 : '',
       blogList: [
         {
           blogId: 13,
@@ -78,6 +76,9 @@ export default {
         technology: '3'
       }
       this.activeIndex = dict[this.type]
+      if(!this.type){
+        this.activeIndex = '1'
+      }
     },
     getPostList(){
       this.$http.get(`postlist/${this.type}`).then((response)=>{

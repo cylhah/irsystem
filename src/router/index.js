@@ -14,6 +14,11 @@ export default new Router({
     //   component: HelloWorld
     // }
     {
+      path: '/',
+      name: 'homepage',
+      component: postlist
+    },
+    {
       path: '/postlist/:type',
       name: 'postlist',
       component: postlist
