@@ -1,6 +1,5 @@
 <template>
   <div class="app">
-    
     <top></top>
       <router-view :key="key" :userId="userId"></router-view>
   </div>

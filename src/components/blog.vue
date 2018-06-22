@@ -1,12 +1,12 @@
 <template>
     <div class="blog">
         <el-row class="content">
-            <el-col :span="8">
+            <el-col :span="8" class="cover">
                 <a href="">
                     <img :src="blog.imgUrl" class="blogImg">
                 </a>
             </el-col>
-            <el-col :span="16">
+            <el-col :span="16" class="rightPart">
                 <p class="blogTitle">
                     <a href="" v-html="highlightTitle"></a>
                 </p>
@@ -119,11 +119,20 @@ export default {
 .chooseBad:hover{
     background: rgb(0, 132, 255);
 }
-.blogImg{
+.cover{
     position: relative;
+    left: 10px;
     width: 300px;
     height: 150px;
-    left: 10px;
+    overflow: hidden;
+}
+.blogImg{
+    width: 300px;
+    height: 150px;
+    transition-duration: 0.8s;
+}
+.blogImg:hover{
+    transform: scale(1.1,1.1);
 }
 .blog{
     background: white;
@@ -136,6 +145,10 @@ export default {
 .content{
     position: relative;
     top: 20px;
+}
+.rightPart{
+    position: relative;
+    left: 25px;
 }
 .blogTitle{
     position: relative;
