@@ -1,7 +1,8 @@
 <template>
-    <div>
+    <div class="main">
         <classification :activeIndex="activeIndex"></classification>
-        <div class="main">
+        
+        <div class="mid">
             <hot-spot></hot-spot>
             <div class="blogList">
                 <blog v-for="blog in blogList" :key="blog.blogId" :blog="blog"></blog>
@@ -26,6 +27,9 @@ export default {
     return {
       type: this.$route.params.type,
       activeIndex: '',
+      screenWidth: null,
+      left1 : '',
+      left2 : '',
       blogList: [
         {
           blogId: 13,
@@ -85,27 +89,27 @@ export default {
   },
   mounted(){
     this.getActiveIndex()
-    // this.getPostList()
   }
 }
 </script>
 
 <style scoped>
 .main{
-  position: absolute;
-  left: 350px;
-  width: 1000px;
-  margin: 20px;
+  position: relative;
+  width: 1460px;
+  margin: 0 auto;
+  top: 20px;
 }
 .classification{
-  position: fixed;
-  top: 90px;
-  left: 12%;
+  position: absolute;
+}
+.mid{
+  position: absolute;
+  left: 120px;
 }
 .right{
   position: absolute;
-  top: 90px;
-  right: 150px;
+  left: 1150px;
 }
 </style>
 

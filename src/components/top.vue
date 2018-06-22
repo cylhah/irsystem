@@ -164,6 +164,11 @@ export default {
     height: 70px;
     box-shadow: 0 2px 5px #ccdbdf;
 }
+@media screen and (max-width: 1370px){
+    .top{
+        width: 1370px;
+    }
+}
 .searchBox{
     width: 80%;
 }

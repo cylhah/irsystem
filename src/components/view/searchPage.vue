@@ -1,7 +1,7 @@
 <template>
-    <div>
+    <div class="main">
         <classification :activeIndex="'1'"></classification>
-        <div class="main">
+        <div class="mid">
             <div class="blogList">
                 <blog v-for="blog in searchList" :key="blog.blogId" :blog="blog" :keyword="keyword"></blog>
             </div>
@@ -122,20 +122,21 @@ export default {
 
 <style scoped>
 .main{
-  position: absolute;
-  left: 350px;
-  width: 1000px;
-  margin: 20px;
+  position: relative;
+  width: 1460px;
+  margin: 0 auto;
+  top: 20px;
 }
 .classification{
-  position: fixed;
-  top: 90px;
-  left: 12%;
+  position: absolute;
+}
+.mid{
+  position: absolute;
+  left: 120px;
 }
 .right{
   position: absolute;
-  top: 90px;
-  right: 150px;
+  left: 1150px;
 }
 </style>
 
