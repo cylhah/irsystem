@@ -1,13 +1,15 @@
 <template>
 <el-row>
-  <el-col :span="4" :offset="2">
-    <article-side :articleId="articleId"></article-side>
-  </el-col>
+    <top></top>
+    <el-col :span="4" :offset="2">
+        <article-side :articleId="articleId"></article-side>
+    </el-col>
 </el-row>
 </template>
 
 <script>
 import articleSide from '../articleSide.vue'
+import top from '../top.vue'
 
 export default {
     data () {
@@ -16,7 +18,7 @@ export default {
         }
     },
     components : {
-        articleSide
+        articleSide,top
     },
     props: ['userId']
 }
