@@ -82,7 +82,7 @@ export default {
     methods: {
         search(){
             if(this.searchText!=''){
-                window.location.href = `#/postlist/search/${this.searchText}`
+                window.location.href = `#/search/${this.searchText}`
             }
         },
         longer(){
