@@ -110,6 +110,7 @@ export default {
 .mid{
   position: absolute;
   left: 120px;
+  width: 1000px;
 }
 .right{
   position: absolute;
