@@ -31,7 +31,7 @@
                 </nav>
             </el-col>
             <el-col :span="1" :offset="1">
-                <a href=""><img src="/static/head.jpeg" class="head" @mouseover="showMenu" @mouseout="closeMenu"></a>
+                <a :href="`#/${userId}`"><img src="/static/head.jpeg" class="head" @mouseover="showMenu" @mouseout="closeMenu"></a>
             </el-col>
         </el-row>
         <div class="personalInfo"
@@ -100,7 +100,8 @@ export default {
         closeMenu(){
             this.isHover = false
         }
-    }
+    },
+    props :['userId']
 }
 </script>
 
