@@ -6,7 +6,7 @@
             <article-side :articleId="articleId" :article="article"></article-side>
         </el-col>
         <el-col :span="12" >
-            <article-text :articleId="articleId" :article="article"></article-text>
+            <article-text :articleId="articleId" :article="article" :userId="userId"></article-text>
         </el-col>
     </el-row>
 </div>

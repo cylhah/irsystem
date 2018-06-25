@@ -3,7 +3,7 @@
         <div>58条评论</div>
         <br>
         <el-row>
-            <a href="">
+            <a :href="`#/${userId}`">
                 <img src="/static/head.jpeg" alt="" class="commentHead">
             </a>
             <el-input
@@ -24,7 +24,7 @@
                 提交
             </el-button>
         </el-row>
-        <comment-item v-for="(userComment,index) in userComments" :key="index" :userComment="userComment"></comment-item>
+        <comment-item v-for="(userComment,index) in userComments" :key="index" :userComment="userComment" :userId="userId"></comment-item>
     </div>
 </template>
 
@@ -87,7 +87,7 @@ export default {
             this.comment = ""
         }
     },
-    props : ['articleId']
+    props : ['articleId','userId']
 }
 </script>
 

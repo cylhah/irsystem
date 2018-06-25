@@ -30,7 +30,7 @@
                 </ul>
             </div>
         </div>
-        <comment :article="articleId"></comment>
+        <comment :article="articleId" :userId="userId"></comment>
     </div>
 </template>
 
@@ -49,7 +49,7 @@ export default {
     methods : {
         
     },
-    props : ['articleId','article']
+    props : ['articleId','article','userId']
 }
 </script>
 

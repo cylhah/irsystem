@@ -1,6 +1,6 @@
 <template>
     <div>
-      <top></top>
+      <top :userId="userId"></top>
       <div class="main">
         <classification :activeIndex="activeIndex"></classification>
         <div class="mid">
@@ -71,6 +71,7 @@ export default {
       ]
     }
   },
+  props : ['userId'],
   methods: {
     getActiveIndex(){
         let dict = {
