@@ -20,7 +20,7 @@ export default {
             userInfo: {
                 userId: this.$route.params.userId,
                 userName: 'cylhah',
-                userHobby: '',
+                userHobby: ['人工智能', '机器学习', '算法'],
                 collections: [
                     {
                         blogId: 13,

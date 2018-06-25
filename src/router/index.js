@@ -23,7 +23,6 @@ export default new Router({
     },
     {
       path: '/:userId',
-      name: 'personalCenter',
       component: pc,
       children: [
         {

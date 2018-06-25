@@ -7,7 +7,7 @@
                     <p>{{userInfo.userName}}</p>
                     <el-tag
                         :key="tag"
-                        v-for="tag in dynamicTags"
+                        v-for="tag in userInfo.userHobby"
                         closable
                         :disable-transitions="false"
                         @close="handleClose(tag)">
@@ -29,13 +29,13 @@
         </div>
         <div class="navbar">
             <nav class="nav">
-                <a :href="`#/${userInfo.userId}`">
+                <a :href="`#/${userInfo.userId}`" :class="{highlight: highlight.collect}">
                     <i class="iconfont icon-shoucangfill"></i><span>收藏夹</span>
                 </a>
-                <a :href="`#/${userInfo.userId}/history`">
+                <a :href="`#/${userInfo.userId}/history`" class="history" :class="{highlight: highlight.history}">
                     <i class="iconfont icon-lishijilu"></i><span>历史记录</span>
                 </a>
-                <a :href="`#/${userInfo.userId}/comment`">
+                <a :href="`#/${userInfo.userId}/comment`" :class="{highlight: highlight.comment}">
                     <i class="iconfont icon-pinglun"></i><span>我的评论</span>
                 </a>
             </nav>
@@ -47,14 +47,19 @@
 export default {
     data(){
         return {
-            dynamicTags: ['人工智能', '机器学习', '算法'],
             inputVisible: false,
-            inputValue: ''
+            inputValue: '',
+            highlight: {
+                collect: false,
+                history: false,
+                comment: false
+            },
+            routePath: this.$route.path
         }
     },
     methods: {
         handleClose(tag) {
-        this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
+        this.userInfo.userHobby.splice(this.userInfo.userHobby.indexOf(tag), 1);
         },
         showInput() {
             this.inputVisible = true;
@@ -65,13 +70,25 @@ export default {
         handleInputConfirm() {
             let inputValue = this.inputValue;
             if (inputValue) {
-            this.dynamicTags.push(inputValue);
+            this.userInfo.userHobby.push(inputValue);
             }
             this.inputVisible = false;
             this.inputValue = '';
+        },
+        getHighlight(){
+            let temp = this.routePath.split('/')
+            if(temp.length==2){
+                this.highlight.collect = true;
+            }
+            else{
+                this.highlight[temp[2]] = true;
+            }
         }
     },
-    props: ['userInfo']
+    props: ['userInfo'],
+    mounted(){
+        this.getHighlight()
+    }
 }
 </script>
 
@@ -79,7 +96,8 @@ export default {
 .pcNav{
     width: 100%;
     height: 200px;
-    background: url('/static/pcbg3.jpg');
+    background: url('/static/pcbg5.jpg');
+    background-position: 0 60%;
     background-size: 100%;
 }
 .input-new-tag{
@@ -130,6 +148,13 @@ export default {
 .nav a{
     text-decoration: none;
     margin: 10px;
+    padding-bottom: 21px;
+}
+.highlight{
+    border-bottom: 3px solid rgb(0, 161, 214);
+}
+.nav a:hover{
+    border-bottom: 3px solid rgb(0, 161, 214);
 }
 .nav a i{
     font-size: 23px;
@@ -143,6 +168,11 @@ export default {
 }
 .nav a span:hover{
     color: rgb(37, 195, 235);
+} 
+.border{
+    position: absolute;
+    width: 100px;
+    border: 1px solid black;
 }
 </style>
 
