@@ -6,7 +6,7 @@
                     <img :src="blog.imgUrl" class="blogImg">
                 </a>
             </el-col>
-            <el-col :span="16" class="rightPart">
+            <el-col :span="15" class="rightPart">
                 <p class="blogTitle">
                     <a :href="articleUrl" v-html="highlightTitle"></a>
                 </p>
@@ -47,7 +47,6 @@ export default {
         good(){
             this.blog.chooseGood = !this.blog.chooseGood
             this.blog.chooseBad = false
-            console.log(this.keyword)
         },
         bad(){
             this.blog.chooseBad = !this.blog.chooseBad
@@ -139,7 +138,7 @@ export default {
 }
 .blog{
     background: white;
-    width: 1000px;
+    width: 100%;
     border-radius: 2px;
     height: 200px;
     box-shadow: 0 5px 10px #ccdbdf;
