@@ -5,12 +5,19 @@
         </div>
         <div class="cover1"></div>
         <div class="cover2"></div>
+        <div class="btn">
+            <button class="back" @click="goHome">返回首页</button>
+        </div>
     </div>
 </template>
 
 <script>
 export default {
-    
+    methods: {
+        goHome(){
+            window.location.href = '/'
+        }
+    }
 }
 </script>
 
@@ -76,7 +83,7 @@ export default {
     top: 20%;
     transform: translateX(-50%);
     motion-path: path("M18.45,58.46s52.87-70.07,101.25-.75,101.75-6.23,101.75-6.23S246.38,5.59,165.33,9.08s-15,71.57-94.51,74.56S18.45,58.46,18.45,58.46Z");
-    animation: move 7s linear infinite;
+    animation: move 15s linear infinite;
 }
 .cover2{
     width: 200px;
@@ -91,6 +98,26 @@ export default {
     transform: translateX(-50%);
     motion-path: path("M18.45,58.46s52.87-70.07,101.25-.75,101.75-6.23,101.75-6.23S246.38,5.59,165.33,9.08s-15,71.57-94.51,74.56S18.45,58.46,18.45,58.46Z");
     animation: move2 10s linear infinite;
+}
+.btn{
+    position: absolute;
+    top: 30%;
+    left: 25%;
+}
+.back{
+    padding: 20px 30px;
+    background: rgb(38, 38, 38);
+    border: 1px solid white;
+    color: white;
+    font-size: 20px;
+    border-radius: 30px;
+    cursor: pointer;
+}
+.back:focus{
+    outline: none;
+}
+.back:hover{
+    opacity: 0.8;
 }
 </style>
 
