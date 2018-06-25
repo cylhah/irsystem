@@ -11,6 +11,7 @@
             <el-col :span="6" :offset="4">
                 <el-input
                 placeholder="请搜索你感兴趣的内容..."
+                maxlength="40"
                 class="searchBox"
                 @focus="longer"
                 @blur="shorter"
@@ -82,7 +83,7 @@ export default {
     methods: {
         search(){
             if(this.searchText!=''){
-                window.location.href = `#/postlist/search/${this.searchText}`
+                window.location.href = `#/search/${this.searchText}`
             }
         },
         longer(){
@@ -173,16 +174,16 @@ export default {
     width: 80%;
 }
 .longerAnimation{
-    animation: longer 1s forwards;
+    animation: longer 0.7s forwards;
 }
 .shorterAnimation{
-    animation: shorter 1s forwards;
+    animation: shorter 0.7s forwards;
 }
 .fadeInAnimation{
-    animation: fadeIn 1s forwards;
+    animation: fadeIn 0.7s forwards;
 }
 .fadeOutAnimation{
-    animation: fadeOut 1s forwards ease-out;
+    animation: fadeOut 0.7s forwards ease-out;
 }
 .searchBox i:hover{
     cursor: pointer;

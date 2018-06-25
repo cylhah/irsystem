@@ -1,5 +1,7 @@
 <template>
-    <div class="main">
+    <div>
+      <top></top>
+      <div class="main">
         <classification :activeIndex="'1'"></classification>
         <div class="mid">
             <div class="blogList">
@@ -9,6 +11,7 @@
         <div class="right">
             <todayRec :recList="recList"></todayRec>
         </div>
+      </div>
     </div>
 </template>
 
@@ -16,9 +19,10 @@
 import blog from '../blog.vue'
 import todayRec from '../todayRec.vue'
 import classification from '../classification.vue'
+import top from '../top.vue'
 export default {
   components: {
-    blog,todayRec,classification
+    blog,todayRec,classification,top
   },
   data(){
     return {

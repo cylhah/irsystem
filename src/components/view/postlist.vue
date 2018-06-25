@@ -1,7 +1,8 @@
 <template>
-    <div class="main">
+    <div>
+      <top></top>
+      <div class="main">
         <classification :activeIndex="activeIndex"></classification>
-        
         <div class="mid">
             <hot-spot></hot-spot>
             <div class="blogList">
@@ -11,6 +12,7 @@
         <div class="right">
             <todayRec :recList="blogList"></todayRec>
         </div>
+      </div>
     </div>
 </template>
 
@@ -19,9 +21,10 @@ import hotSpot from '../hotSpot.vue'
 import classification from '../classification.vue'
 import blog from '../blog.vue'
 import todayRec from '../todayRec.vue'
+import top from '../top.vue'
 export default {
   components: {
-    hotSpot,classification,blog,todayRec
+    hotSpot,classification,blog,todayRec,top
   },
   data(){
     return {

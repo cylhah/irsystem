@@ -1,6 +1,5 @@
 <template>
   <div class="app">
-    <top></top>
       <router-view :key="key" :userId="userId"></router-view>
   </div>
 </template>
@@ -13,7 +12,7 @@ export default {
   },
   data (){
     return {
-      userId : 123
+      userId : 123,
     }
   },
   computed: {
