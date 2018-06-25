@@ -4,20 +4,38 @@
             <div class="userInfo">
                 <img src="/static/head.jpeg" class="head">
                 <div class="name">
-                    <p>cylhah</p>
-                    <p>asd</p>
+                    <p>{{userInfo.userName}}</p>
+                    <el-tag
+                        :key="tag"
+                        v-for="tag in dynamicTags"
+                        closable
+                        :disable-transitions="false"
+                        @close="handleClose(tag)">
+                        {{tag}}
+                    </el-tag>
+                    <el-input
+                        class="input-new-tag"
+                        v-if="inputVisible"
+                        v-model="inputValue"
+                        ref="saveTagInput"
+                        size="small"
+                        @keyup.enter.native="handleInputConfirm"
+                        @blur="handleInputConfirm"
+                    >
+                    </el-input>
+                    <el-button v-else class="button-new-tag" size="small" @click="showInput">+ 添加喜好</el-button>
                 </div>
             </div>
         </div>
         <div class="navbar">
             <nav class="nav">
-                <a :href="`#/${userId}`">
+                <a :href="`#/${userInfo.userId}`">
                     <i class="iconfont icon-shoucangfill"></i><span>收藏夹</span>
                 </a>
-                <a :href="`#/${userId}/history`">
+                <a :href="`#/${userInfo.userId}/history`">
                     <i class="iconfont icon-lishijilu"></i><span>历史记录</span>
                 </a>
-                <a :href="`#/${userId}/comment`">
+                <a :href="`#/${userInfo.userId}/comment`">
                     <i class="iconfont icon-pinglun"></i><span>我的评论</span>
                 </a>
             </nav>
@@ -29,9 +47,31 @@
 export default {
     data(){
         return {
-            userId: this.$route.params.userId
+            dynamicTags: ['人工智能', '机器学习', '算法'],
+            inputVisible: false,
+            inputValue: ''
         }
-    }
+    },
+    methods: {
+        handleClose(tag) {
+        this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
+        },
+        showInput() {
+            this.inputVisible = true;
+            this.$nextTick(_ => {
+            this.$refs.saveTagInput.$refs.input.focus();
+            });
+        },
+        handleInputConfirm() {
+            let inputValue = this.inputValue;
+            if (inputValue) {
+            this.dynamicTags.push(inputValue);
+            }
+            this.inputVisible = false;
+            this.inputValue = '';
+        }
+    },
+    props: ['userInfo']
 }
 </script>
 
@@ -42,6 +82,12 @@ export default {
     background: url('/static/pcbg3.jpg');
     background-size: 100%;
 }
+.input-new-tag{
+    width: 100px;
+}
+.el-tag{
+    color: bisque;
+}
 .head{
     width: 70px;
     border-radius: 50%;
@@ -51,6 +97,7 @@ export default {
     font-size: 25px;
     font-weight: bold;
     position: relative;
+    width: 500px;
     left: 80px;
     top: -80px;
 }

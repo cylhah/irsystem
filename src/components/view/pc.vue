@@ -2,7 +2,7 @@
     <div>
         <top></top>
         <div class="main">
-            <pc-nav></pc-nav>
+            <pc-nav :userInfo="userInfo"></pc-nav>
             <router-view></router-view>
         </div>
     </div>
@@ -17,9 +17,8 @@ export default {
     },
     data(){
         return {
-            userId: this.$route.params.userId,
             userInfo: {
-                userId,
+                userId: this.$route.params.userId,
                 userName: 'cylhah',
                 userHobby: '',
                 collections: [

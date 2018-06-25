@@ -47,7 +47,6 @@ export default {
         good(){
             this.blog.chooseGood = !this.blog.chooseGood
             this.blog.chooseBad = false
-            console.log(this.keyword)
         },
         bad(){
             this.blog.chooseBad = !this.blog.chooseBad
