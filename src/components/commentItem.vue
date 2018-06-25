@@ -1,6 +1,6 @@
 <template>
     <el-row class="commentBoder">
-        <el-col :span="4">
+        <el-col :span="3">
             <a href="#/:userId">
                 <img src="/static/head.jpeg" alt="" class="commentHead">
             </a>
@@ -21,7 +21,7 @@
             </div>
             <div>
                 <span class="spanColor">回复·</span>
-                <span class="spanColor" @click="reply">{{replyButton}}</span>
+                <span class="spanColor" @click="reply">{{replyButton}}<i class="iconfont" :class="{'icon-xia-copy':isreply,'icon-xia':!isreply}"></i></span>
             </div>
         </el-col>
     </el-row>

@@ -3,8 +3,8 @@
     <div class="sideButton"><el-button  circle><i class="iconfont icon-pinglun"></i></el-button></div>
     <hr>
     <div class="sideButton"><el-button  @click="collect" circle><i class="iconfont" :class="{'icon-xihuan-xianxing':!article.isCollect,'icon-xihuan':article.isCollect}"></i></el-button></div>
-    <div class="sideButton"><el-button  circle><i class="iconfont icon-dianzan"></i></el-button></div>
-    <div class="sideButton"><el-button  circle><i class="iconfont icon-cai"></i></el-button></div>
+    <div class="sideButton"><el-button  circle><i class="iconfont icon-good"></i></el-button></div>
+    <div class="sideButton"><el-button  circle><i class="iconfont icon-bad"></i></el-button></div>
 </div>
 </template>
 
