@@ -29,13 +29,13 @@
         </div>
         <div class="navbar">
             <nav class="nav">
-                <a :href="`#/${userInfo.userId}`" :class="{highlight: highlight.collect}">
+                <a :href="`#/user/${userInfo.userId}`" :class="{highlight: highlight.collect}">
                     <i class="iconfont icon-shoucangfill"></i><span>收藏夹</span>
                 </a>
-                <a :href="`#/${userInfo.userId}/history`" class="history" :class="{highlight: highlight.history}">
+                <a :href="`#/user/${userInfo.userId}/history`" class="history" :class="{highlight: highlight.history}">
                     <i class="iconfont icon-lishijilu"></i><span>历史记录</span>
                 </a>
-                <a :href="`#/${userInfo.userId}/comment`" :class="{highlight: highlight.comment}">
+                <a :href="`#/user/${userInfo.userId}/comment`" :class="{highlight: highlight.comment}">
                     <i class="iconfont icon-pinglun"></i><span>我的评论</span>
                 </a>
             </nav>

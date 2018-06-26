@@ -6,6 +6,7 @@ import article from '@/components/view/article.vue'
 import page404 from '@/components/view/page404.vue'
 import pc from '@/components/view/pc.vue'
 import collections from '@/components/view/collections.vue'
+import pc404 from '@/components/view/pc404.vue'
 
 Vue.use(Router)
 
@@ -22,7 +23,7 @@ export default new Router({
       component: postlist
     },
     {
-      path: '/:userId',
+      path: '/user/:userId',
       component: pc,
       children: [
         {
@@ -36,6 +37,10 @@ export default new Router({
         {
           path: 'comment',
           component: collections
+        },
+        {
+          path: '*',
+          component: pc404
         }
       ]
     },
