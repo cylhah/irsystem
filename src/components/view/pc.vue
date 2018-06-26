@@ -1,6 +1,6 @@
 <template>
     <div>
-        <top></top>
+        <top :userId="userInfo.userId"></top>
         <div class="main">
             <pc-nav :userInfo="userInfo"></pc-nav>
             <router-view></router-view>

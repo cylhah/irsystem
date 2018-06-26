@@ -1,6 +1,6 @@
 <template>
 <div>
-    <top></top>
+    <top :userId="userId"></top>
     <el-row>
         <el-col :span="2" :offset="2">
             <article-side :articleId="articleId" :article="article"></article-side>

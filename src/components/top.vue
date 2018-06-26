@@ -31,7 +31,7 @@
                 </nav>
             </el-col>
             <el-col :span="1" :offset="1">
-                <a :href="`#/${userId}`"><img src="/static/head.jpeg" class="head" @mouseover="showMenu" @mouseout="closeMenu"></a>
+                <a :href="`#/user/${userId}`"><img src="/static/head.jpeg" class="head" @mouseover="showMenu" @mouseout="closeMenu"></a>
             </el-col>
         </el-row>
         <div class="personalInfo"
@@ -47,13 +47,13 @@
                 <div class="options">
                     <p :class="{greyBg:choice1}"
                         @mouseover="choice1=true"
-                        @mouseout="choice1=false"><a href=""><i class="el-icon-menu"></i> 我的主页</a></p>
+                        @mouseout="choice1=false"><a :href="`#/user/${userId}`"><i class="el-icon-menu"></i> 我的主页</a></p>
                     <p :class="{greyBg:choice2}"
                         @mouseover="choice2=true"
-                        @mouseout="choice2=false"><a href=""><i class="el-icon-bell"></i> 我的回复 <el-badge class="mark" :value="12" /></a></p>
+                        @mouseout="choice2=false"><a :href="`#/user/${userId}/comment`"><i class="el-icon-bell"></i> 我的回复 <el-badge class="mark" :value="12" /></a></p>
                     <p :class="{greyBg:choice3}"
                         @mouseover="choice3=true"
-                        @mouseout="choice3=false"><a href=""><i class="el-icon-tickets"></i> 我的收藏</a></p>
+                        @mouseout="choice3=false"><a :href="`#/user/${userId}`"><i class="el-icon-tickets"></i> 我的收藏</a></p>
                     <p :class="{greyBg:choice4}"
                         @mouseover="choice4=true"
                         @mouseout="choice4=false"><a href=""><i class="el-icon-setting"></i> 退出</a></p>
