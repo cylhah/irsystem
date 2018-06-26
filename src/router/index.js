@@ -23,7 +23,7 @@ export default new Router({
       component: postlist
     },
     {
-      path: '/:userId',
+      path: '/user/:userId',
       component: pc,
       children: [
         {
