@@ -103,11 +103,18 @@ export default {
             this.comment = ""
         },
         change (index) {
+            if (this.userComments[index].replyShow) {
+            this.userComments[index].replyShow = false
+            this.$set(this.userComments,index,this.userComments[index])                 
+            }
+            else{
             this.userComments[this.expandChoosed].replyShow = false
             this.$set(this.userComments,this.expandChoosed,this.userComments[this.expandChoosed])
             this.userComments[index].replyShow = true
             this.$set(this.userComments,index,this.userComments[index])       
             this.expandChoosed = index
+            }
+
         }
     },
     props : ['articleId','userId'],
