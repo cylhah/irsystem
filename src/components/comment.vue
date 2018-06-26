@@ -10,11 +10,10 @@
             type="textarea"
             placeholder="写下您的评论..."
             class="textarea"
-            rows="2"
             :autosize="{minRows:2,maxRows:6}"
             v-model="comment"
             >
-            </el-input>         
+            </el-input>
         </el-row>
         <el-row>
             <el-button class="refresh" @click="refresh">
@@ -24,7 +23,15 @@
                 提交
             </el-button>
         </el-row>
-        <comment-item v-for="(userComment,index) in userComments" :key="index" :userComment="userComment" :userId="userId"></comment-item>
+        <comment-item 
+        v-for="(userComment, index) in userComments" 
+        :key="index" 
+        :index="index"
+        :userComment="userComment" 
+        :userId="userId"
+        @change="change"
+        >
+        </comment-item>
     </div>
 </template>
 
@@ -35,46 +42,55 @@ export default {
     data () {
         return{
             comment:"",
+            expandChoosed:0,
             userComments : [
                 {
-                    userId:1,
+                    commentUserId:10,
                     commentId:1,
                     userHeadUrl:'/static/head.jpeg',
                     userName:'张三哈',
                     commentText:'这篇文章真有意思!',
                     commentUp:223,
                     commentTime:'2018-06-10 22:14:17',
-                    replyNum:334
+                    replyNum:334,
+                    reply:"",
+                    replyShow:false
                 },
                 {
-                    userId:1,
+                    commentUserId:8,
                     commentId:2,
                     userHeadUrl:'/static/head.jpeg',
                     userName:'张留哈',
                     commentText:'这篇文章真有意思!',
                     commentUp:224,
                     commentTime:'2018-06-10 22:04:17',
-                    replyNum:34
+                    replyNum:34,
+                    reply:"",
+                    replyShow:false
                 },
                 {
-                    userId:1,
+                    commentUserId:6,
                     commentId:3,
                     userHeadUrl:'/static/head.jpeg',
                     userName:'齐三哈',
                     commentText:'这篇文章真有意思!',
                     commentUp:123,
                     commentTime:'2018-06-10 20:14:17',
-                    replyNum:33
+                    replyNum:33,
+                    reply:"",
+                    replyShow:false
                 },
                 {
-                    userId:1,
+                    commentUserId:5,
                     commentId:4,
                     userHeadUrl:'/static/head.jpeg',
                     userName:'张三日',
                     commentText:'这篇文章真有意思!',
                     commentUp:23,
                     commentTime:'2018-06-10 22:14:47',
-                    replyNum:2
+                    replyNum:2,
+                    reply:"",
+                    replyShow:false
                 },
             ]
         }
@@ -85,9 +101,21 @@ export default {
     methods : {
         refresh () {
             this.comment = ""
+        },
+        change (index) {
+            this.userComments[this.expandChoosed].replyShow = false
+            this.$set(this.userComments,this.expandChoosed,this.userComments[this.expandChoosed])
+            this.userComments[index].replyShow = true
+            this.$set(this.userComments,index,this.userComments[index])       
+            this.expandChoosed = index
         }
     },
-    props : ['articleId','userId']
+    props : ['articleId','userId'],
+    // wathch :{
+    //     expandChoosed (newExpandChoosed,oldExpandChoosed) {
+                
+    //     }
+    // }
 }
 </script>
 
