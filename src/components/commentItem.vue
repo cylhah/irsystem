@@ -21,7 +21,20 @@
             </div>
             <div class="hoverSpan">
                 <span class="spanColor" @click="comment">回复·</span>
-                <span class="spanColor" @click="reply">{{replyButton}}<i class="iconfont" :class="{'icon-xia-copy':isreply,'icon-xia':!isreply}"></i></span>
+                <span class="spanColor" @click="reply">{{replyButton}}
+                    <i class="iconfont" :class="{'icon-xia-copy':isreply,'icon-xia':!isreply}">
+                    </i>
+                </span>
+                <span
+                class="commentUpcss"
+                @click="commentUp"
+                >
+                    {{userComment.commentUp}}
+                    <i class="iconfont" 
+                    :class="{'icon-dianzan':userComment.isUpEd,'icon-good':!userComment.isUpEd}"
+                    >
+                    </i>
+                </span>
             </div>
             <div v-if="userComment.replyShow" >
                 <div>
@@ -43,19 +56,85 @@
                     </el-button>
                 </el-row>
             </div>
-            
+            <comment-reply
+            v-for="(commentComment,index) in commentComments"
+            :key="index"
+            :index="index"
+            :commentComment="commentComment"
+            :userId="userId"
+            @commentChange="commentChange"
+            @commentCommentUp="commentCommentUp"
+            v-show="isreply"
+            >
+
+            </comment-reply>
         </el-col>
     </el-row>
 </template>
 
 <script>
+import commentReply from './commentReply.vue'
+
 export default {
     props :['userComment','index','userId'],
+    components:{
+        commentReply
+    },
     data () {
         return {
             isreply:false,
             isComment:false,
-            
+            expandChoosed:0,
+            commentComments:[
+                {
+                    commentUserId:23,
+                    commentId:12,
+                    userHeadUrl:'/static/head.jpeg',
+                    userName:'李武',
+                    commentText:'这篇文章真有意思!',
+                    commentUp:3,
+                    commentTime:'2018-06-10 22:14:17',
+                    reply:"",
+                    isUpEd:false,
+                    replyShow:false
+                },
+                {
+                    commentUserId:28,
+                    commentId:22,
+                    userHeadUrl:'/static/head.jpeg',
+                    userName:'水电工',
+                    commentText:'这篇文章真有意思!',
+                    commentUp:7,
+                    commentTime:'2018-06-10 22:04:17',
+                    reply:"",
+                    isUpEd:false,
+                    replyShow:false
+                },
+                {
+                    commentUserId:26,
+                    commentId:32,
+                    userHeadUrl:'/static/head.jpeg',
+                    userName:'研究生',
+                    commentText:'这篇文章真有意思!',
+                    commentUp:13,
+                    commentTime:'2018-06-10 20:14:17',
+                    reply:"",
+                    isUpEd:false,
+                    replyShow:false
+                },
+                {
+                    commentUserId:25,
+                    commentId:24,
+                    userHeadUrl:'/static/head.jpeg',
+                    userName:'张三日',
+                    commentText:'这篇文章真有意思!',
+                    commentUp:8,
+                    commentTime:'2018-06-10 22:14:47',
+                    reply:"",
+                    isUpEd:false,
+                    replyShow:false
+                }
+            ]
         }
     },
     methods : {
@@ -70,6 +149,35 @@ export default {
         },
         comment() {
             this.$emit('change',this.index)
+        },
+        commentUp(){
+            this.$emit('commentUp',this.index)
+        },
+        commentChange (index) {
+            if (this.commentComments[index].replyShow) {
+            this.commentComments[index].replyShow = false
+            this.$set(this.commentComments,index,this.commentComments[index])                 
+            }
+            else{
+            this.commentComments[this.expandChoosed].replyShow = false
+            this.$set(this.commentComments,this.expandChoosed,this.commentComments[this.expandChoosed])
+            this.commentComments[index].replyShow = true
+            this.$set(this.commentComments,index,this.commentComments[index])       
+            this.expandChoosed = index
+            }
+
+        },
+        commentCommentUp(index) {
+            if (this.commentComments[index].isUpEd) {
+                this.commentComments[index].isUpEd = false 
+                this.commentComments[index].commentUp -= 1
+                this.$set(this.commentComments,index,this.commentComments[index])
+            }
+            else{
+                this.commentComments[index].isUpEd = true 
+                this.commentComments[index].commentUp += 1
+                this.$set(this.commentComments,index,this.commentComments[index])
+            }
         }
     },
     computed : {
@@ -142,4 +250,12 @@ export default {
     }
 }
 /* 收缩 */
+.commentUpcss{
+    float: right;
+    color: #777
+}
+.commentUpEdcss{
+    float: right;
+    color: rgb(34, 55, 148)
+}
 </style>

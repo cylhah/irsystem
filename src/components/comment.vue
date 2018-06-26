@@ -30,6 +30,7 @@
         :userComment="userComment" 
         :userId="userId"
         @change="change"
+        @commentUp="commentUp"
         >
         </comment-item>
     </div>
@@ -54,6 +55,7 @@ export default {
                     commentTime:'2018-06-10 22:14:17',
                     replyNum:334,
                     reply:"",
+                    isUpEd:false,
                     replyShow:false
                 },
                 {
@@ -66,6 +68,7 @@ export default {
                     commentTime:'2018-06-10 22:04:17',
                     replyNum:34,
                     reply:"",
+                    isUpEd:false,
                     replyShow:false
                 },
                 {
@@ -78,6 +81,7 @@ export default {
                     commentTime:'2018-06-10 20:14:17',
                     replyNum:33,
                     reply:"",
+                    isUpEd:false,
                     replyShow:false
                 },
                 {
@@ -90,6 +94,7 @@ export default {
                     commentTime:'2018-06-10 22:14:47',
                     replyNum:2,
                     reply:"",
+                    isUpEd:false,
                     replyShow:false
                 },
             ]
@@ -115,6 +120,18 @@ export default {
             this.expandChoosed = index
             }
 
+        },
+        commentUp(index) {
+            if (this.userComments[index].isUpEd) {
+                this.userComments[index].isUpEd = false 
+                this.userComments[index].commentUp -= 1
+                this.$set(this.userComments,index,this.userComments[index])
+            }
+            else{
+                this.userComments[index].isUpEd = true 
+                this.userComments[index].commentUp += 1
+                this.$set(this.userComments,index,this.userComments[index])
+            }
         }
     },
     props : ['articleId','userId'],
