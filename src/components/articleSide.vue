@@ -1,36 +1,49 @@
 <template>
 <div class="aticleSideWidth">
     <div class="sideButton">
-        <el-button  circle><i class="iconfont icon-pinglun"></i></el-button>
-    </div>
-    <hr>
-    <div class="sideButton">
-        <el-button  @click="collect" circle>
-            <i 
-            class="iconfont" 
-            :class="{'icon-xihuan-xianxing':!article.isCollect,'icon-xihuan':article.isCollect}"
+        <el-button @click="changeshow" round>
+            <i
+            class="iconfont"
+            :class="{'icon-xia-copy':show,'icon-xia':!show}"
             >
+
             </i>
         </el-button>
     </div>
-    <div class="sideButton">
-        <el-button  @click="chooseGood" circle>
-            <i 
-            class="iconfont" 
-            :class="{'icon-dianzan':article.chooseGood,'icon-good':!article.chooseGood}"
-            >
-            </i>
-        </el-button>
-    </div>
-    <div class="sideButton">
-        <el-button  @click="chooseBad" circle>
-            <i 
-            class="iconfont" 
-            :class="{'icon-cai':article.chooseBad,'icon-bad':!article.chooseBad}"
-            >
-            </i>
-        </el-button>
-    </div>
+    <el-collapse-transition>
+        <div v-show="show">
+            <div class="sideButton">
+                <el-button  circle><i class="iconfont icon-pinglun"></i></el-button>
+            </div>
+            <div class="sideButton">
+                <el-button  @click="collect" circle>
+                    <i 
+                    class="iconfont" 
+                    :class="{'icon-xihuan-xianxing':!article.isCollect,'icon-xihuan':article.isCollect}"
+                    >
+                    </i>
+                </el-button>
+            </div>
+            <div class="sideButton">
+                <el-button  @click="chooseGood" circle>
+                    <i 
+                    class="iconfont" 
+                    :class="{'icon-dianzan':article.chooseGood,'icon-good':!article.chooseGood}"
+                    >
+                    </i>
+                </el-button>
+            </div>
+            <div class="sideButton">
+                <el-button  @click="chooseBad" circle>
+                    <i 
+                    class="iconfont" 
+                    :class="{'icon-cai':article.chooseBad,'icon-bad':!article.chooseBad}"
+                    >
+                    </i>
+                </el-button>
+            </div>
+        </div>
+    </el-collapse-transition>
 </div>
 </template>
 
@@ -39,7 +52,7 @@
 export default {
     data () {
         return {
-      
+            show: true
         }
     },
     methods : {
@@ -63,6 +76,9 @@ export default {
             else {
                 this.article.chooseBad = false
             }           
+        },
+        changeshow () {
+            this.show = !this.show
         }
     },
     props : ['articleId','article']
