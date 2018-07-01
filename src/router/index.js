@@ -7,6 +7,7 @@ import page404 from '@/components/view/page404.vue'
 import pc from '@/components/view/pc.vue'
 import collections from '@/components/view/collections.vue'
 import pc404 from '@/components/view/pc404.vue'
+import pcComment from '@/components/view/pcComment.vue'
 
 Vue.use(Router)
 
@@ -36,7 +37,7 @@ export default new Router({
         },
         {
           path: 'comment',
-          component: collections
+          component: pcComment
         },
         {
           path: '*',
