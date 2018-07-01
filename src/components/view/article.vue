@@ -85,7 +85,7 @@ export default {
         this.$htttp.get(`/article/${articleId}`).then( (response)=>{
             this.article = response.data
         },(response)=>{
-
+            console.log('连接失败！')
         })
     },
     components : {
