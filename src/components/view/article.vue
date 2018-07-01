@@ -81,6 +81,13 @@ export default {
       ]
         }
     },
+    created(){
+        this.$htttp.get(`/article/${articleId}`).then( (response)=>{
+            this.article = response.data
+        },(response)=>{
+
+        })
+    },
     components : {
         articleSide,
         articleText,

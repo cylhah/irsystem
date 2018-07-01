@@ -136,6 +136,7 @@ export default {
 }
 .mid{
   position: absolute;
+  width: 1000px;
   left: 120px;
 }
 .right{
