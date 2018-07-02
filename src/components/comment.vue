@@ -4,7 +4,7 @@
         <br>
         <el-row>
             <a :href="`#/${userId}`">
-                <img src="/static/head.jpeg" alt="" class="commentHead">
+                <img :src="'./static/img/head.jpeg'" alt="" class="commentHead">
             </a>
             <el-input
             type="textarea"
@@ -48,7 +48,7 @@ export default {
                 {
                     commentUserId:10,
                     commentId:1,
-                    userHeadUrl:'/static/head.jpeg',
+                    userHeadUrl:'./static/img/head.jpeg',
                     userName:'张三哈',
                     commentText:'这篇文章真有意思!',
                     commentUp:223,
@@ -61,7 +61,7 @@ export default {
                 {
                     commentUserId:8,
                     commentId:2,
-                    userHeadUrl:'/static/head.jpeg',
+                    userHeadUrl:'./static/img/head.jpeg',
                     userName:'张留哈',
                     commentText:'这篇文章真有意思!',
                     commentUp:224,
@@ -74,7 +74,7 @@ export default {
                 {
                     commentUserId:6,
                     commentId:3,
-                    userHeadUrl:'/static/head.jpeg',
+                    userHeadUrl:'./static/img/head.jpeg',
                     userName:'齐三哈',
                     commentText:'这篇文章真有意思!',
                     commentUp:123,
@@ -87,7 +87,7 @@ export default {
                 {
                     commentUserId:5,
                     commentId:4,
-                    userHeadUrl:'/static/head.jpeg',
+                    userHeadUrl:'./static/img/head.jpeg',
                     userName:'张三日',
                     commentText:'这篇文章真有意思!',
                     commentUp:23,

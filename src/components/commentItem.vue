@@ -2,7 +2,7 @@
     <el-row class="commentBoder">
         <el-col :span="3">
             <a href="#/:userId">
-                <img src="/static/head.jpeg" alt="" class="commentHead">
+                <img :src="'./static/img/head.jpeg'" alt="" class="commentHead">
             </a>
         </el-col>
         <el-col :span="18">
@@ -89,7 +89,7 @@ export default {
                 {
                     commentUserId:23,
                     commentId:12,
-                    userHeadUrl:'/static/head.jpeg',
+                    userHeadUrl:'./static/img/head.jpeg',
                     userName:'李武',
                     commentText:'这篇文章真有意思!',
                     commentUp:3,
@@ -101,7 +101,7 @@ export default {
                 {
                     commentUserId:28,
                     commentId:22,
-                    userHeadUrl:'/static/head.jpeg',
+                    userHeadUrl:'./static/img/head.jpeg',
                     userName:'水电工',
                     commentText:'这篇文章真有意思!',
                     commentUp:7,
@@ -113,7 +113,7 @@ export default {
                 {
                     commentUserId:26,
                     commentId:32,
-                    userHeadUrl:'/static/head.jpeg',
+                    userHeadUrl:'./static/img/head.jpeg',
                     userName:'研究生',
                     commentText:'这篇文章真有意思!',
                     commentUp:13,
@@ -125,7 +125,7 @@ export default {
                 {
                     commentUserId:25,
                     commentId:24,
-                    userHeadUrl:'/static/head.jpeg',
+                    userHeadUrl:'./static/img/head.jpeg',
                     userName:'张三日',
                     commentText:'这篇文章真有意思!',
                     commentUp:8,

@@ -2,7 +2,7 @@
     <el-row class="commentBoder">
         <el-col :span="3">
             <a href="#/:userId">
-                <img src="/static/head.jpeg" alt="" class="commentHead">
+                <img :src="'./static/img/head.jpeg'" alt="" class="commentHead">
             </a>
         </el-col>
         <el-col :span="18">

@@ -4,7 +4,7 @@
             <el-col :span="4" :offset="2">
                 <div class="logo">
                     <a href="">
-                        <img src="/static/logo1.png">
+                        <img :src="'./static/img/logo1.png'">
                     </a>
                 </div>
             </el-col>
@@ -31,7 +31,7 @@
                 </nav>
             </el-col>
             <el-col :span="1" :offset="1">
-                <a :href="`#/user/${userId}`"><img src="/static/head.jpeg" class="head" @mouseover="showMenu" @mouseout="closeMenu"></a>
+                <a :href="`#/user/${userId}`"><img :src="'./static/img/head.jpeg'" class="head" @mouseover="showMenu" @mouseout="closeMenu"></a>
             </el-col>
         </el-row>
         <div class="personalInfo"
@@ -41,7 +41,7 @@
             <div class="body">
                 <div class="headInfo">
                     <a href="">
-                        <img src="/static/head.jpeg"> <span>cylhah</span>
+                        <img :src="'./static/img/head.jpeg'"> <span>cylhah</span>
                     </a>
                 </div>
                 <div class="options">

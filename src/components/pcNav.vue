@@ -2,7 +2,7 @@
     <div>
         <div class="pcNav">
             <div class="userInfo">
-                <img src="/static/head.jpeg" class="head">
+                <img :src="'./static/img/head.jpeg'" class="head">
                 <div class="name">
                     <p>{{userInfo.userName}}</p>
                     <el-tag
@@ -96,7 +96,7 @@ export default {
 .pcNav{
     width: 100%;
     height: 200px;
-    background: url('/static/pcbg5.jpg');
+    background: url('/static/img/pcbg5.jpg');
     background-position: 0 60%;
     background-size: 100%;
 }
