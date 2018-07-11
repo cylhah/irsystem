@@ -6,6 +6,7 @@ import article from '@/components/view/article.vue'
 import page404 from '@/components/view/page404.vue'
 import pc from '@/components/view/pc.vue'
 import collections from '@/components/view/collections.vue'
+import historyRecord from '@/components/view/historyRecord.vue'
 import pc404 from '@/components/view/pc404.vue'
 import pcComment from '@/components/view/pcComment.vue'
 
@@ -33,7 +34,7 @@ export default new Router({
         },
         {
           path: 'history',
-          component: collections
+          component: historyRecord
         },
         {
           path: 'comment',

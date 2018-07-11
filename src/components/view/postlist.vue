@@ -6,7 +6,7 @@
         <div class="mid">
             <hot-spot></hot-spot>
             <div class="blogList">
-                <blog v-for="blog in blogList" :key="blog.blogId" :blog="blog"></blog>
+                <blog v-for="blog in blogList" :key="blog.blogId" :blog="blog" :userId="userId"></blog>
             </div>
         </div>
         <div class="right">
@@ -29,6 +29,7 @@ export default {
   data(){
     return {
       type: this.$route.params.type,
+      userId: this.userId,
       activeIndex: '1',
       screenWidth: null,
       blogList: [

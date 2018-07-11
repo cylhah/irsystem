@@ -12,7 +12,7 @@ export default {
   },
   data (){
     return {
-      userId : 123,
+      userId : 1,
     }
   },
   computed: {

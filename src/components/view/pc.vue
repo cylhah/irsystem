@@ -3,7 +3,7 @@
         <top :userId="userInfo.userId"></top>
         <div class="main">
             <pc-nav :userInfo="userInfo"></pc-nav>
-            <router-view></router-view>
+            <router-view :userId="userId"></router-view>
         </div>
     </div>
 </template>
@@ -54,7 +54,8 @@ export default {
                 ]
             }
         }
-    }
+    },
+    props: ['userId']
 }
 </script>
 

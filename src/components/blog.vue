@@ -3,7 +3,7 @@
         <el-row class="content">
             <el-col :span="8" class="cover">
                 <a :href="articleUrl">
-                    <img :src="blog.imgUrl" class="blogImg">
+                    <img :src="`./static/img/${article.articlePicUrl}`" class="blogImg">
                 </a>
             </el-col>
             <el-col :span="15" class="rightPart">
@@ -14,20 +14,20 @@
                 </p>
                 <p class="info">
                     <label class="good"
-                            :class="{chooseGood:blog.chooseGood}"
-                            @click="good"><i class="iconfont icon-good"></i>14k</label>
+                            :class="{chooseGood:up}"
+                            @click="good"><i class="iconfont icon-good"></i>{{article.articleUpNumber}}</label>
                     <label class="bad"
-                            :class="{chooseBad:blog.chooseBad}"
+                            :class="{chooseBad:down}"
                             @click="bad"><i class="iconfont icon-bad"></i></label>
                     <label class="collect"
                             @click="collect">
                         <i class="iconfont"
-                            :class="{'icon-xihuan-xianxing': !blog.isCollect,'icon-xihuan': blog.isCollect}"
+                            :class="{'icon-xihuan-xianxing': !collected,'icon-xihuan': collected}"
                             ></i>收藏
                     </label>
                     <label class="collect"><i class="iconfont icon-fenxiang"></i>分享</label>
                     <label class="common">·1小时前</label>
-                    <label class="common"><i class="iconfont icon-liulan"></i>{{blog.pageView}}</label>
+                    <label class="common"><i class="iconfont icon-liulan"></i>{{article.clickNumber}}</label>
                 </p>
             </el-col>
         </el-row>
@@ -38,24 +38,109 @@
 export default {
     data(){
         return{
+            collected: false,
+            up: false,
+            down: false,
+            upOrDown: 0
         }
     },
     methods: {
         collect(){
-            this.blog.isCollect = !this.blog.isCollect
+            if (!this.collected) {
+                this.$http.post(`/api/collection/userId/${this.userId}/articleId/${this.article.articleId}`).then( (response)=>{
+                    if (response.data==1) {
+                        this.collected = true
+                    }
+                },(response)=>{
+                    console.log('连接失败！')
+                })
+            }
+            else {
+                this.$http.delete(`/api/collection/userId/${this.userId}/articleId/${this.article.articleId}`).then( (response)=>{
+                    if (response.data==1) {
+                        this.collected = false
+                    }
+                },(response)=>{
+                    console.log('连接失败！')
+                })
+            }
         },
         good(){
-            this.blog.chooseGood = !this.blog.chooseGood
-            this.blog.chooseBad = false
+            if (this.upOrDown==1){
+                this.$http.delete(`/api/upAndDown/userId/${this.userId}/articleId/${this.article.articleId}`).then( (response)=>{
+                if (response.data==1) {
+                    this.article.articleUpNumber -= 1
+                    this.up = false
+                    this.upOrDown = 0
+                }
+                },(response)=>{
+                    console.log('连接失败！')
+                })
+            }
+            else {
+                this.$http.post(`/api/upAndDown/userId/${this.userId}/articleId/${this.article.articleId}/upOrDown/1`).then( (response)=>{
+                if (response.data==1) {
+                    this.article.articleUpNumber += 1
+                    this.up = true
+                    this.upOrDown = 1
+                    this.down = false
+                }
+                },(response)=>{
+                    console.log('连接失败！')
+                })
+            }
         },
         bad(){
-            this.blog.chooseBad = !this.blog.chooseBad
-            this.blog.chooseGood = false
+            if (this.upOrDown==2){
+                this.$http.delete(`/api/upAndDown/userId/${this.userId}/articleId/${this.article.articleId}`).then( (response)=>{
+                if (response.data==1) {
+                    this.down = false
+                    this.upOrDown = 0
+                }
+                },(response)=>{
+                    console.log('连接失败！')
+                })
+            }
+            else {
+                this.$http.post(`/api/upAndDown/userId/${this.userId}/articleId/${this.article.articleId}/upOrDown/2`).then( (response)=>{
+                if (response.data==1) {
+                    this.down = true
+                    this.upOrDown = 2
+                    this.up = false
+                }
+                },(response)=>{
+                    console.log('连接失败！')
+                })
+            }
+        },
+        getCollection(){
+            this.$http.get(`/api/collection/userId/${this.userId}/articleId/${this.article.articleId}`).then( (response)=>{
+                let type = response.data
+                if (type==1){
+                    this.collected = true
+                }
+            },(response)=>{
+                console.log('连接失败！')
+            })
+        },
+        getUpAndDown(){
+            this.$http.get(`/api/upAndDown/userId/${this.userId}/articleId/${this.article.articleId}`).then( (response)=>{
+                this.upOrDown = response.data
+                let type = response.data
+                if (type==1){
+                    this.up = true
+                }
+                else if (type==2){
+                    this.down = true
+                }
+            },(response)=>{
+                console.log('连接失败！')
+            })
         }
     },
     computed: {
         highlightPartContent(){
-            let part = this.blog.content.substr(0,50)+'...'
+            let part = this.article.articleText.substr(0,50)+'...'
             if(this.keyword){
                 let regex = new RegExp(this.keyword,'g')
                 let replace = `<span style="color:red">${this.keyword}</span>`
@@ -69,17 +154,21 @@ export default {
             if(this.keyword){
                 let regex = new RegExp(this.keyword,'g')
                 let replace = `<span style="color:red">${this.keyword}</span>`
-                return this.blog.title.replace(regex,replace)
+                return this.article.articleTitle.replace(regex,replace)
             }
             else {
-                return this.blog.title
+                return this.article.articleTitle
             }
         },
         articleUrl(){
-            return `#/article/${this.blog.blogId}`
+            return `#/article/${this.article.articleId}` 
         }
     },
-    props: ['blog','keyword']
+    props: ['article','keyword','userId'],
+    created(){
+        this.getCollection()
+        this.getUpAndDown()
+    }
 }
 </script>
 
