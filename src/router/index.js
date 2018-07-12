@@ -9,6 +9,8 @@ import collections from '@/components/view/collections.vue'
 import historyRecord from '@/components/view/historyRecord.vue'
 import pc404 from '@/components/view/pc404.vue'
 import pcComment from '@/components/view/pcComment.vue'
+import admin from '@/components/view/admin.vue'
+import articleMng from '@/components/view/articleMng.vue'
 
 Vue.use(Router)
 
@@ -50,6 +52,17 @@ export default new Router({
       path: '/search/:keyword',
       name: 'searchPage',
       component: searchPage
+    },
+    {
+      path: '/admin',
+      name: 'admin',
+      component: admin,
+      children: [
+        {
+          path: '/',
+          component: articleMng
+        }
+      ]
     },
     {
       path: '/article/:articleId' ,
