@@ -82,11 +82,11 @@ export default {
         }
     },
     created(){
-        this.$htttp.get(`/article/${articleId}`).then( (response)=>{
-            this.article = response.data
-        },(response)=>{
-            console.log('连接失败！')
-        })
+        // this.$http.get(`/article/${this.articleId}`).then( (response)=>{
+        //     this.article = response.data
+        // },(response)=>{
+        //     console.log('连接失败！')
+        // })
     },
     components : {
         articleSide,

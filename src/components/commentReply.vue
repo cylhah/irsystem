@@ -7,9 +7,12 @@
         </el-col>
         <el-col :span="18">
             <div>
-                <a :href="`#/${userId}`" class="userNameUrl">
+                <a :href="`#/${commentComment.userId}`" class="userNameUrl">
                     {{commentComment.userName}}
                 </a>
+                <span>
+                     回复 {{commentComment.replyTo}}
+                </span>
                 <small>
                     {{commentComment.commentTime}}
                 </small>

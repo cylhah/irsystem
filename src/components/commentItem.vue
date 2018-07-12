@@ -86,60 +86,26 @@ export default {
             isComment:false,
             expandChoosed:0,
             commentComments:[
-                {
-                    commentUserId:23,
-                    commentId:12,
-                    userHeadUrl:'./static/img/head.jpeg',
-                    userName:'李武',
-                    commentText:'这篇文章真有意思!',
-                    commentUp:3,
-                    commentTime:'2018-06-10 22:14:17',
-                    reply:"",
-                    isUpEd:false,
-                    replyShow:false
-                },
-                {
-                    commentUserId:28,
-                    commentId:22,
-                    userHeadUrl:'./static/img/head.jpeg',
-                    userName:'水电工',
-                    commentText:'这篇文章真有意思!',
-                    commentUp:7,
-                    commentTime:'2018-06-10 22:04:17',
-                    reply:"",
-                    isUpEd:false,
-                    replyShow:false
-                },
-                {
-                    commentUserId:26,
-                    commentId:32,
-                    userHeadUrl:'./static/img/head.jpeg',
-                    userName:'研究生',
-                    commentText:'这篇文章真有意思!',
-                    commentUp:13,
-                    commentTime:'2018-06-10 20:14:17',
-                    reply:"",
-                    isUpEd:false,
-                    replyShow:false
-                },
-                {
-                    commentUserId:25,
-                    commentId:24,
-                    userHeadUrl:'./static/img/head.jpeg',
-                    userName:'张三日',
-                    commentText:'这篇文章真有意思!',
-                    commentUp:8,
-                    commentTime:'2018-06-10 22:14:47',
-                    reply:"",
-                    isUpEd:false,
-                    replyShow:false
-                }
+                
             ]
         }
     },
     methods : {
         reply() {
             this.isreply = !this.isreply
+            let formData = new FormData()
+            formData.append("commentId",this.userComment.commentId)
+            formData.append("page",0)
+            this.$http.post(
+                '/api/comment/getCommentChild',
+                formData
+                ).then( (response) => {
+                    if(response.data!=null){
+                        this.commentComments = response.data
+                    }
+                }, (response) => {
+                    console.log("评论读取失败!")
+                })
         },
         refresh() {
             this.userComment.reply = ""
@@ -186,7 +152,7 @@ export default {
                 return '收起回复'
             }
             else {
-                return this.userComment.replyNum + '条回复'
+                return this.commentComments.length + '条回复'
             }
         }
     }
