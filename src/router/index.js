@@ -11,6 +11,7 @@ import pc404 from '@/components/view/pc404.vue'
 import pcComment from '@/components/view/pcComment.vue'
 import admin from '@/components/view/admin.vue'
 import articleMng from '@/components/view/articleMng.vue'
+import userMng from '@/components/view/userMng.vue'
 
 Vue.use(Router)
 
@@ -61,6 +62,10 @@ export default new Router({
         {
           path: '/',
           component: articleMng
+        },
+        {
+          path: 'userMng',
+          component: userMng
         }
       ]
     },
