@@ -67,7 +67,8 @@ export default {
         return {
             yourScore:null,
             keyword:'世界杯',
-             blogList: [
+            page:0,
+            blogList: [
         
             ]
         }

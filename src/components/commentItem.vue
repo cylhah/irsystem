@@ -2,7 +2,7 @@
     <el-row class="commentBoder">
         <el-col :span="3">
             <a href="#/:userId">
-                <img :src="'./static/img/head.jpeg'" alt="" class="commentHead">
+                <img :src="userComment.userHeadUrl" alt="" class="commentHead">
             </a>
         </el-col>
         <el-col :span="18">
@@ -20,8 +20,8 @@
                 </p>
             </div>
             <div class="hoverSpan">
-                <span class="spanColor" @click="comment">回复·</span>
-                <span class="spanColor" @click="reply">{{replyButton}}
+                <span class="spanColor" @click="comment">回复</span>
+                <span class="spanColor" @click="reply" v-show="isHaveReply">·{{replyButton}}
                     <i class="iconfont" :class="{'icon-xia-copy':isreply,'icon-xia':!isreply}">
                     </i>
                 </span>
@@ -29,9 +29,9 @@
                 class="commentUpcss"
                 @click="commentUp"
                 >
-                    {{userComment.commentUp}}
+                    {{userComment.commentUpNumber}}
                     <i class="iconfont" 
-                    :class="{'icon-dianzan':userComment.isUpEd,'icon-good':!userComment.isUpEd}"
+                    :class="{'icon-dianzan':userComment.upEd,'icon-good':!userComment.upEd}"
                     >
                     </i>
                 </span>
@@ -48,6 +48,7 @@
                     </el-input>
                 </div>
                 <el-row>
+                    <span class="commentNotNull" v-show="commentNotNull">评论内容不能为空！</span>
                     <el-button class="refresh" @click="refresh">
                         重置    
                     </el-button>
@@ -84,7 +85,9 @@ export default {
         return {
             isreply:false,
             isComment:false,
+            isHaveReply:false,
             expandChoosed:0,
+            commentNotNull:false,
             commentComments:[
                 
             ]
@@ -96,6 +99,7 @@ export default {
             let formData = new FormData()
             formData.append("commentId",this.userComment.commentId)
             formData.append("page",0)
+            formData.append("userId",4)
             this.$http.post(
                 '/api/comment/getCommentChild',
                 formData
@@ -111,12 +115,89 @@ export default {
             this.userComment.reply = ""
         },
         submitTo() {
-            alert(this.userComment.reply+this.userId+this.userComment.commentUserId)
+            if(this.userComment.reply!=null&&this.userComment.reply!=""){
+                this.$http.post(
+                    '/api/comment/replyCommentComment',
+                    {
+                        articleId:1,
+                        userId:4,
+                        targetCommentId:this.userComment.commentId,
+                        replyCommentId:this.userComment.commentId,
+                        commentText:this.userComment.reply,
+                    },
+                    {
+                        headers: {
+                        'Content-Type': 'application/json;charset=UTF-8'
+                        }
+                    }
+                ).then( (response) =>{
+                    if(response.data==1){
+                        console.log("评论成功!")
+                        this.commentNotNull = false
+                    }
+                    else{
+                        console.log("评论失败")
+                    }
+                },(response) =>{
+                    console.log("评论失败")
+                })
+            }
+            else{
+                this.commentNotNull = true
+            }
         },
         comment() {
             this.$emit('change',this.index)
         },
         commentUp(){
+            if(this.userComment.upEd==true){
+                this.$http.post(
+                    '/api/commentUp/down',
+                    {
+                        userId: 4,
+                        commentId: this.userComment.commentId
+                    },
+                    {
+                        headers: {
+                        'Content-Type': 'application/json;charset=UTF-8'
+                        }
+                    }
+                ).then( (response) =>{
+                            if(response.data==1){
+                                console.log("取消点赞成功!")
+                            }
+                            else{
+                                console.log("取消点赞失败!")
+                            }
+                        },(response) =>{
+                            console.log("取消点赞失败！")
+                        }
+                    )
+            }
+            else{
+                this.$http.post(
+                    '/api/commentUp/up',
+                    {
+                        userId:4,
+                        commentId:this.userComment.commentId
+                    },
+                    {
+                        headers: {
+                        'Content-Type': 'application/json;charset=UTF-8'
+                        }
+                    }
+                ).then( (response) =>{
+                            if(response.data==1){
+                                console.log("点赞成功!")
+                            }
+                            else{
+                                console.log("点赞失败!")
+                            }
+                        },(response) =>{
+                            console.log("点赞失败！")
+                        }
+                    )
+            }
             this.$emit('commentUp',this.index)
         },
         commentChange (index) {
@@ -134,14 +215,14 @@ export default {
 
         },
         commentCommentUp(index) {
-            if (this.commentComments[index].isUpEd) {
-                this.commentComments[index].isUpEd = false 
-                this.commentComments[index].commentUp -= 1
+            if (this.commentComments[index].upEd) {
+                this.commentComments[index].upEd = false 
+                this.commentComments[index].commentUpNumber -= 1
                 this.$set(this.commentComments,index,this.commentComments[index])
             }
             else{
-                this.commentComments[index].isUpEd = true 
-                this.commentComments[index].commentUp += 1
+                this.commentComments[index].upEd = true 
+                this.commentComments[index].commentUpNumber += 1
                 this.$set(this.commentComments,index,this.commentComments[index])
             }
         }
@@ -152,7 +233,13 @@ export default {
                 return '收起回复'
             }
             else {
-                return this.commentComments.length + '条回复'
+                if(this.userComment.replyNum==0){
+                    this.isHaveReply = false
+                }
+                else{
+                    this.isHaveReply = true
+                }
+                return this.userComment.replyNum + '条回复'
             }
         }
     }
@@ -197,6 +284,9 @@ export default {
 }
 .replyComment{
     height: 0
+}
+.commentNotNull{
+    color: red;
 }
 @keyframes expand {
     0%{

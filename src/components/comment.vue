@@ -44,59 +44,9 @@ export default {
         return{
             comment:"",
             expandChoosed:0,
+            page:0,
             userComments : [
-                {
-                    commentUserId:10,
-                    commentId:1,
-                    userHeadUrl:'./static/img/head.jpeg',
-                    userName:'张三哈',
-                    commentText:'这篇文章真有意思!',
-                    commentUp:223,
-                    commentTime:'2018-06-10 22:14:17',
-                    replyNum:334,
-                    reply:"",
-                    isUpEd:false,
-                    replyShow:false
-                },
-                {
-                    commentUserId:8,
-                    commentId:2,
-                    userHeadUrl:'./static/img/head.jpeg',
-                    userName:'张留哈',
-                    commentText:'这篇文章真有意思!',
-                    commentUp:224,
-                    commentTime:'2018-06-10 22:04:17',
-                    replyNum:34,
-                    reply:"",
-                    isUpEd:false,
-                    replyShow:false
-                },
-                {
-                    commentUserId:6,
-                    commentId:3,
-                    userHeadUrl:'./static/img/head.jpeg',
-                    userName:'齐三哈',
-                    commentText:'这篇文章真有意思!',
-                    commentUp:123,
-                    commentTime:'2018-06-10 20:14:17',
-                    replyNum:33,
-                    reply:"",
-                    isUpEd:false,
-                    replyShow:false
-                },
-                {
-                    commentUserId:5,
-                    commentId:4,
-                    userHeadUrl:'./static/img/head.jpeg',
-                    userName:'张三日',
-                    commentText:'这篇文章真有意思!',
-                    commentUp:23,
-                    commentTime:'2018-06-10 22:14:47',
-                    replyNum:2,
-                    reply:"",
-                    isUpEd:false,
-                    replyShow:false
-                },
+               
             ]
         }
     },
@@ -122,19 +72,35 @@ export default {
 
         },
         commentUp(index) {
-            if (this.userComments[index].isUpEd) {
-                this.userComments[index].isUpEd = false 
-                this.userComments[index].commentUp -= 1
+            if (this.userComments[index].upEd) {
+                this.userComments[index].upEd = false 
+                this.userComments[index].commentUpNumber -= 1
                 this.$set(this.userComments,index,this.userComments[index])
             }
             else{
-                this.userComments[index].isUpEd = true 
-                this.userComments[index].commentUp += 1
+                this.userComments[index].upEd = true 
+                this.userComments[index].commentUpNumber += 1
                 this.$set(this.userComments,index,this.userComments[index])
             }
         }
     },
     props : ['articleId','userId'],
+    created(){
+        let formData = new FormData()
+        formData.append("articleId",1)
+        formData.append("page",this.page)
+        formData.append("userId",4)
+        this.$http.post(
+            '/api/comment/articleComment',
+            formData
+        ).then( (response) =>{
+            if(response.data!=null){
+                this.userComments = response.data
+            }
+        }, (response) =>{
+            console.log("文章评论加载失败！"+this.articleId)
+        })
+    }
     // wathch :{
     //     expandChoosed (newExpandChoosed,oldExpandChoosed) {
                 

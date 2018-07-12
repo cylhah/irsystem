@@ -1,8 +1,8 @@
 <template>
-    <el-row class="commentBoder">
+    <el-row>
         <el-col :span="3">
             <a href="#/:userId">
-                <img :src="'./static/img/head.jpeg'" alt="" class="commentHead">
+                <img :src="commentComment.userHeadUrl" alt="" class="commentHead">
             </a>
         </el-col>
         <el-col :span="18">
@@ -28,9 +28,9 @@
                 class="commentCommentUpcss"
                 @click="commentCommentUp"
                 >
-                    {{commentComment.commentUp}}
+                    {{commentComment.commentUpNumber}}
                     <i class="iconfont" 
-                    :class="{'icon-dianzan':commentComment.isUpEd,'icon-good':!commentComment.isUpEd}"
+                    :class="{'icon-dianzan':commentComment.upEd,'icon-good':!commentComment.upEd}"
                     >
                     </i>
                 </span>
@@ -47,6 +47,7 @@
                     </el-input>
                 </div>
                 <el-row>
+                    <span class="commentNotNull" v-show="commentNotNull">评论内容不能为空！</span>
                     <el-button class="refresh" @click="refresh">
                         重置    
                     </el-button>
@@ -54,8 +55,7 @@
                         提交
                     </el-button>
                 </el-row>
-            </div>
-            
+            </div>    
         </el-col>
     </el-row> 
 </template>
@@ -63,17 +63,101 @@
 <script>
 export default {
     props :['commentComment','userId','index'],
+    data () {
+        return{
+            commentNotNull:false
+        }
+    },
     methods : {
         refresh() {
             this.commentComment.reply = ""
         },
         submitTo() {
-            alert(this.commentComment.reply+this.userId+this.commentComment.commentUserId)
+            if(this.commentComment.reply!=null&&this.commentComment.reply!=""){
+                this.$http.post(
+                    '/api/comment/replyCommentComment',
+                    {
+                        articleId:1,
+                        userId:4,
+                        targetCommentId:this.commentComment.targetCommentId,
+                        replyCommentId:this.commentComment.commentId,
+                        commentText:this.commentComment.reply,
+                    },
+                    {
+                        headers: {
+                        'Content-Type': 'application/json;charset=UTF-8'
+                        }
+                    }
+                ).then( (response) =>{
+                    if(response.data==1){
+                        console.log("评论成功!")
+                        this.commentNotNull = false
+                    }
+                    else{
+                        console.log("评论失败")
+                    }
+                },(response) =>{
+                    console.log("评论失败")
+                })
+            }
+            else{
+                this.commentNotNull = true
+            }
+            
         },
         commentCommentReply() {
             this.$emit('commentChange',this.index)
         },
         commentCommentUp(){
+            if(this.commentComment.upEd==true){
+                this.$http.post(
+                    '/api/commentUp/down',
+                    {
+                        "userId":4,
+                        "commentId":this.commentComment.commentId
+                    },
+                    {
+                        headers: {
+                        'Content-Type': 'application/json;charset=UTF-8'
+                        }
+                    }
+                ).then( (response) =>{
+                            if(response.data==1){
+                                console.log("取消点赞成功!")
+                            }
+                            else{
+                                console.log("取消点赞失败!")
+                            }
+                        },(response) =>{
+                            console.log("取消点赞失败！")
+                        }
+                    )
+            }
+            else{
+                this.$http.post(
+                    '/api/commentUp/up',
+                    {
+                        "userId":4,
+                        "commentId":this.commentComment.commentId
+                    },
+                    {
+                        headers: {
+                        'Content-Type': 'application/json;charset=UTF-8'
+                        }
+                    }
+                ).then( (response) =>{
+                            if(response.data==1){
+                                console.log("点赞成功!")
+                            }
+                            else{
+                                console.log("点赞失败!")
+                            }
+                        },(response) =>{
+                            console.log("点赞失败！")
+                        }
+                    )
+            }
+           
             this.$emit('commentCommentUp',this.index)
         }
     }
@@ -90,9 +174,7 @@ export default {
     box-sizing: border-box;
 
 }
-.commentBoder{
-    border-top: solid #f2f2f2 1px ;
-}
+
 .userNameUrl{
     font-size: 14px;
     text-decoration: none;
@@ -118,6 +200,9 @@ export default {
 }
 .replyComment{
     height: 0
+}
+.commentNotNull{
+    color: red;
 }
 @keyframes expand {
     0%{
