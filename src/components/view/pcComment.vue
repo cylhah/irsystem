@@ -1,20 +1,44 @@
 <template>
     <div class="commentDiv">
-        <h3>回复我的：</h3>
-       <div class="comment">
-           <p class="commentYou"><a href="">南柯</a>回复了你：<span>真好看</span></p>
-           <p class="myComment">回复我的评论：<span>这篇文章不错</span></p>
-       </div>
-       <div class="comment">
-           <p class="commentYou"><a href="">南柯</a>回复了你：<span>真好看</span></p>
-           <p class="myComment">回复我的评论：<span>这篇文章不错</span></p>
+        <h3>我评论的：</h3>
+       <div class="comment" v-for="(comment,index) in commentList" :key="index">
+           <p>我评论了文章：<a :href="`#/article/${comment.articleId}`">{{comment.commentText}}</a></p>
+           <p>
+               <span class="common">评论的主题：“</span>
+               <a :href="`#/article/${comment.articleId}`" v-text="comment.targetCommentId"></a>
+               <span class="common">”</span>
+               <span class="commentTime">{{comment.commentTime}}</span>
+            </p>
        </div>
     </div>
 </template>
 
 <script>
 export default {
-
+    data(){
+        return {
+            commentList: [],
+        }
+    },
+    methods: {
+        getCommentToArticle(){
+            this.$http.get(`/api/comment/userId/${this.userId}`).then( (response)=>{
+                this.commentList = response.data
+                for(let i=0;i<this.commentList.length;i++){
+                    this.$http.get(`/api/article/${this.commentList[i].articleId}`).then( (response)=>{
+                        this.commentList[i].targetCommentId = response.data.articleTitle
+                    },(response)=>{
+                    })
+                }
+                console.log(this.commentList)
+            },(response)=>{
+            })
+        }
+    },
+    props: ['userId'],
+    created(){
+        this.getCommentToArticle()
+    }
 }
 </script>
 
@@ -25,19 +49,17 @@ export default {
 }
 .comment{
     padding: 20px;
-    /* box-shadow: 0 0 10px rgb(46, 193, 212); */
     border-bottom: 1px solid rgb(196, 186, 186);
 }
-.commentYou a{
-    color: rgb(45, 100, 179);
+.comment a{
     text-decoration: none;
+    color: rgb(45, 100, 179);
 }
-.myComment{
+.common{
     color: grey;
 }
-.myComment span{
-    color: black;
-    font-weight: bold;
+.commentTime{
+    float: right;
 }
 </style>
     

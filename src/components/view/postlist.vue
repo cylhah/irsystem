@@ -6,11 +6,11 @@
         <div class="mid">
             <hot-spot></hot-spot>
             <div class="blogList">
-                <blog v-for="blog in blogList" :key="blog.blogId" :blog="blog" :userId="userId"></blog>
+                <blog v-for="(article,index) in articleList" :key="index" :article="article" :userId="userId"></blog>
             </div>
         </div>
         <div class="right">
-            <todayRec :recList="blogList"></todayRec>
+            <todayRec></todayRec>
         </div>
       </div>
     </div>
@@ -29,47 +29,8 @@ export default {
   data(){
     return {
       type: this.$route.params.type,
-      userId: this.userId,
       activeIndex: '1',
-      screenWidth: null,
-      blogList: [
-        {
-          blogId: 13,
-          author: '新华网',
-          title: 'request中跟路径有关的api的分析',
-          time: '2018-06-10 22:14:17',
-          content: '主教练塔瓦雷斯，这位现年71岁的老帅自2006年乌拉圭无缘世界杯后接过球队教鞭，至今已率队连续3次闯入决赛圈，并在2010年获得第4名佳绩。2011年，他还曾率领“天蓝军团”夺取美洲杯冠军。',
-          imgUrl: './static/img/people059.png',
-          pageView: 1325,
-          isCollect: false,
-          chooseGood: true,
-          chooseBad: false
-        },
-        {
-          blogId: 14,
-          author: '新华网',
-          title: '这是第2篇文章！！！',
-          time: '2018-06-10 22:14:17',
-          content: '这是第二篇文章！！！！圭无缘世界杯后接过球队教鞭，至今已率队连续3次闯入决赛圈，并在2010年获得第4名佳绩。2011年，他还曾率领“天蓝军团”夺取美洲杯冠军。',
-          imgUrl: './static/img/people025.jpg',
-          pageView: 4396,
-          isCollect: false,
-          chooseGood: false,
-          chooseBad: false
-        },
-        {
-          blogId: 15,
-          author: '新华网',
-          title: '这是第三篇文章！！！',
-          time: '2018-06-10 22:14:17',
-          content: '这是第三篇文章！！！6年乌拉圭无缘世界杯后接过球队教鞭，至今已率队连续3次闯入决赛圈，并在2010年获得第4名佳绩。2011年，他还曾率领“天蓝军团”夺取美洲杯冠军。',
-          imgUrl: './static/img/people062.png',
-          pageView: 1554,
-          isCollect: true,
-          chooseGood: false,
-          chooseBad: true
-        }
-      ]
+      articleList: []
     }
   },
   props : ['userId'],
@@ -86,15 +47,51 @@ export default {
       }
     },
     getPostList(){
-      this.$http.get(`postlist/${this.type}`).then((response)=>{
-        this.blogList = response.data.blogList
-      },(response)=>{
-        console.log('请求失败!')
-      })
+      let dict = {
+        technology: '1',
+        car: '2',
+        economy: '3',
+        entertainment: '4',
+        sport: '5',
+        fun: '7',
+        hot: '-1'
+      }
+      let typeId = dict[this.type]
+      if(typeId==-1){
+        let now = new Date()
+        let eDate = new Date()
+        eDate.setDate(now.getDate()+1)
+        let sDate = new Date()
+        sDate.setDate(now.getDate()-10)
+        let eDateStr = eDate.getFullYear()+'-'+(eDate.getMonth()+1)+'-'+eDate.getDate()
+        let sDateStr = sDate.getFullYear()+'-'+(sDate.getMonth()+1)+'-'+sDate.getDate()
+        this.$http.post(`/api/article/date/top`,{
+            sDate: sDateStr,
+            eDate: eDateStr,
+            topNum: 10
+        },{
+            emulateJSON: true
+        }).then( (response)=>{
+            this.articleList = response.data
+        },(response)=>{
+            console.log('连接失败！')
+        })
+      }
+      else if (!this.type){
+
+      }
+      else {
+        this.$http.get(`/api/article/typeId/${typeId}/topNum/10`).then( (response)=>{
+            this.articleList = response.data
+        },(response)=>{
+            console.log('连接失败！')
+        })
+      }
     }
   },
-  mounted(){
+  created(){
     this.getActiveIndex()
+    this.getPostList()
   }
 }
 </script>

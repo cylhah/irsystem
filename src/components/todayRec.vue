@@ -2,17 +2,17 @@
     <div>
         <div class="right">
             <p class="head"><i class="iconfont icon-huo"></i>今日推荐</p>
-            <el-row v-for="rec in recList" :key="rec.blogId" class="rec">
+            <el-row v-for="rec in recList" :key="rec.articleId" class="rec">
                 <el-col :span="8" class="left">
                     <div class="cover">
-                            <a :href="`#/article/${rec.blogId}`">
-                                <img :src="rec.imgUrl">
+                            <a :href="`#/article/${rec.articleId}`">
+                                <img :src="`./static/img/${rec.articlePicUrl}`">
                             </a>
                     </div>
                 </el-col>
                 <el-col :span="16" class="title">
-                    <a :href="`#/article/${rec.blogId}`">
-                        {{rec.title}}
+                    <a :href="`#/article/${rec.articleId}`">
+                        {{rec.articleTitle}}
                     </a>
                 </el-col>
             </el-row>
@@ -33,6 +33,7 @@
 export default {
     data(){
         return {
+            recList: [],
             links: [
                 {
                     webName: '光明网',
@@ -61,7 +62,27 @@ export default {
             ]
         }
     },
-    props: ['recList']
+    methods: {
+        getTodayRecList(){
+            let date = new Date()
+            let date1 = new Date()
+            date1.setDate(date.getDate()+1)
+            let sDate = date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate()
+            let eDate = date1.getFullYear()+'-'+(date1.getMonth()+1)+'-'+date1.getDate()
+            this.$http.post(`/api/article/date/top`,{
+                sDate,eDate,topNum: 10
+            },{
+                emulateJSON: true
+            }).then( (response)=>{
+                this.recList = response.data
+            },(response)=>{
+                console.log('连接失败！')
+            })
+        }
+    },
+    created(){
+        this.getTodayRecList()
+    }
 }
 </script>
 

@@ -184,8 +184,10 @@ export default {
     },
     props: ['article','keyword','userId'],
     created(){
-        this.getCollection()
-        this.getUpAndDown()
+        if(this.userId) {
+            this.getCollection()
+            this.getUpAndDown()
+        }
     }
 }
 </script>
