@@ -26,7 +26,7 @@
                             ></i>收藏
                     </label>
                     <label class="collect"><i class="iconfont icon-fenxiang"></i>分享</label>
-                    <label class="common">·1小时前</label>
+                    <label class="common">{{getTime}}</label>
                     <label class="common"><i class="iconfont icon-liulan"></i>{{article.clickNumber}}</label>
                 </p>
             </el-col>
@@ -158,6 +158,24 @@ export default {
             }
             else {
                 return this.article.articleTitle
+            }
+        },
+        getTime(){
+            let nowTimeStamp = Date.parse(new Date())
+            let date = new Date(this.article.articleTime)
+            let time = Date.parse(date)
+            let usedTime = nowTimeStamp-time
+            let days = Math.floor(usedTime/(24*3600*1000))
+            let hours = Math.floor(usedTime/(3600*1000))
+            let min = Math.floor(usedTime/(60*1000))
+            if(days>0) {
+                return '- '+days+'天前'
+            }
+            else if(hours>0){
+                return '- '+hours+'小时前'
+            }
+            else {
+                return '- '+min+'分钟前'
             }
         },
         articleUrl(){
