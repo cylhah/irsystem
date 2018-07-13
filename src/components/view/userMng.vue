@@ -3,21 +3,21 @@
         <div class="mid">
             <div class="today">
                 <p class="mycon"><i class="iconfont icon-account"></i></p>
-                <p class="number">2</p>
+                <p class="number">0</p>
                 <div class="item">
                     <span>今日注册用户</span>
                 </div>
             </div>
             <div class="today">
                 <p class="mycon1"><i class="iconfont icon-iconfontfuwushichang"></i></p>
-                <p class="number1">10</p>
+                <p class="number1">2</p>
                 <div class="item1">
                     <span>本周注册用户</span>
                 </div>
             </div>
             <div class="today">
                 <p class="mycon2"><i class="iconfont icon-wxbzhanghu"></i></p>
-                <p class="number2">40</p>
+                <p class="number2">2</p>
                 <div class="item2">
                     <span>本月注册用户</span>
                 </div>
