@@ -2,13 +2,13 @@
     <div class="blog">
         <el-row class="content">
             <el-col :span="8" class="cover">
-                <a :href="articleUrl">
+                <a :href="articleUrl" @click="browse">
                     <img :src="`./static/img/${article.articlePicUrl}`" class="blogImg">
                 </a>
             </el-col>
             <el-col :span="15" class="rightPart">
                 <p class="blogTitle">
-                    <a :href="articleUrl" v-html="highlightTitle"></a>
+                    <a :href="articleUrl" v-html="highlightTitle" @click="browse"></a>
                 </p>
                 <p class="partContent" v-html="highlightPartContent">
                 </p>
@@ -104,6 +104,9 @@ export default {
             else {
                 this.$http.post(`/api/upAndDown/userId/${this.userId}/articleId/${this.article.articleId}/upOrDown/2`).then( (response)=>{
                 if (response.data==1) {
+                    if (this.upOrDown==1) {
+                        this.article.articleUpNumber -= 1
+                    }
                     this.down = true
                     this.upOrDown = 2
                     this.up = false
@@ -133,6 +136,19 @@ export default {
                 else if (type==2){
                     this.down = true
                 }
+            },(response)=>{
+                console.log('连接失败！')
+            })
+        },
+        browse(){
+            this.$http.post(`/api/historyRecord/userId/${this.userId}/articleId/${this.article.articleId}`).then( (response)=>{
+                
+            },(response)=>{
+                console.log('连接失败！')
+            })
+
+            this.$http.put(`/api/article/${this.article.articleId}/clickNumber`).then( (response)=>{
+                
             },(response)=>{
                 console.log('连接失败！')
             })
