@@ -104,6 +104,9 @@ export default {
             else {
                 this.$http.post(`/api/upAndDown/userId/${this.userId}/articleId/${this.article.articleId}/upOrDown/2`).then( (response)=>{
                 if (response.data==1) {
+                    if (this.upOrDown==1) {
+                        this.article.articleUpNumber -= 1
+                    }
                     this.down = true
                     this.upOrDown = 2
                     this.up = false
