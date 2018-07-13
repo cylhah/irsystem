@@ -78,7 +78,7 @@ export default {
         })
       }
       else if (!this.type){
-
+        
       }
       else {
         this.$http.get(`/api/article/typeId/${typeId}/topNum/10`).then( (response)=>{

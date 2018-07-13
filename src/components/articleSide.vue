@@ -19,25 +19,25 @@
                 <el-button  @click="collect" circle>
                     <i 
                     class="iconfont" 
-                    :class="{'icon-xihuan-xianxing':!article.isCollect,'icon-xihuan':article.isCollect}"
+                    :class="{'icon-xihuan-xianxing':!collected,'icon-xihuan':collected}"
                     >
                     </i>
                 </el-button>
             </div>
             <div class="sideButton">
-                <el-button  @click="chooseGood" circle>
+                <el-button  @click="good" circle>
                     <i 
                     class="iconfont" 
-                    :class="{'icon-dianzan':article.chooseGood,'icon-good':!article.chooseGood}"
+                    :class="{'icon-dianzan':up,'icon-good':!up}"
                     >
                     </i>
                 </el-button>
             </div>
             <div class="sideButton">
-                <el-button  @click="chooseBad" circle>
+                <el-button  @click="bad" circle>
                     <i 
                     class="iconfont" 
-                    :class="{'icon-cai':article.chooseBad,'icon-bad':!article.chooseBad}"
+                    :class="{'icon-cai':down,'icon-bad':!down}"
                     >
                     </i>
                 </el-button>
@@ -52,36 +52,118 @@
 export default {
     data () {
         return {
-            show: true
+            show: true,
+            collected: false,
+            up: false,
+            down: false,
+            upOrDown: 0,
+            userId:2
         }
     },
     methods : {
-        collect () {
-            this.article.isCollect = !this.article.isCollect
-        },
-        chooseGood () {
-            if (!this.article.chooseGood) {
-                this.article.chooseGood = true
-                this.article.chooseBad = false
+        collect(){
+            if (!this.collected) {
+                this.$http.post(`/api/collection/userId/${this.userId}/articleId/${this.articleId}`).then( (response)=>{
+                    if (response.data==1) {
+                        this.collected = true
+                    }
+                },(response)=>{
+                    console.log('连接失败！')
+                })
             }
             else {
-                this.article.chooseGood = false
+                this.$http.delete(`/api/collection/userId/${this.userId}/articleId/${this.articleId}`).then( (response)=>{
+                    if (response.data==1) {
+                        this.collected = false
+                    }
+                },(response)=>{
+                    console.log('连接失败！')
+                })
             }
         },
-        chooseBad () {
-            if (!this.article.chooseBad) {
-                this.article.chooseGood = false
-                this.article.chooseBad = true
+        good(){
+            if (this.upOrDown==1){
+                this.$http.delete(`/api/upAndDown/userId/${this.userId}/articleId/${this.articleId}`).then( (response)=>{
+                if (response.data==1) {
+                    
+                    this.up = false
+                    this.upOrDown = 0
+                }
+                },(response)=>{
+                    console.log('连接失败！')
+                })
             }
             else {
-                this.article.chooseBad = false
-            }           
+                this.$http.post(`/api/upAndDown/userId/${this.userId}/articleId/${this.articleId}/upOrDown/1`).then( (response)=>{
+                if (response.data==1) {
+                    
+                    this.up = true
+                    this.upOrDown = 1
+                    this.down = false
+                }
+                },(response)=>{
+                    console.log('连接失败！')
+                })
+            }
+        },
+        bad(){
+            if (this.upOrDown==2){
+                this.$http.delete(`/api/upAndDown/userId/${this.userId}/articleId/${this.articleId}`).then( (response)=>{
+                if (response.data==1) {
+                    this.down = false
+                    this.upOrDown = 0
+                }
+                },(response)=>{
+                    console.log('连接失败！')
+                })
+            }
+            else {
+                this.$http.post(`/api/upAndDown/userId/${this.userId}/articleId/${this.articleId}/upOrDown/2`).then( (response)=>{
+                if (response.data==1) {
+                    this.down = true
+                    this.upOrDown = 2
+                    this.up = false
+                }
+                },(response)=>{
+                    console.log('连接失败！')
+                })
+            }
+        },
+        getCollection(){
+            this.$http.get(`/api/collection/userId/${this.userId}/articleId/${this.articleId}`).then( (response)=>{
+                let type = response.data
+                if (type==1){
+                    this.collected = true
+                }
+            },(response)=>{
+                console.log('连接失败！')
+            })
+        },
+        getUpAndDown(){
+            this.$http.get(`/api/upAndDown/userId/${this.userId}/articleId/${this.articleId}`).then( (response)=>{
+                this.upOrDown = response.data
+                let type = response.data
+                if (type==1){
+                    this.up = true
+                }
+                else if (type==2){
+                    this.down = true
+                }
+            },(response)=>{
+                console.log('连接失败！')
+            })
         },
         changeshow () {
             this.show = !this.show
         }
     },
-    props : ['articleId','article']
+    props : ['articleId','article'],
+    created(){
+        if(this.userId) {
+            this.getCollection()
+            this.getUpAndDown()
+        }
+    }
 }
 </script>
 

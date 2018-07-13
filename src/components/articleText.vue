@@ -4,9 +4,9 @@
             <div>
                 <i></i>
                 <a href="#/" class="headA">首页</a> /
-                <a :href="`#/postlist/${article.type}`" class="headA">{{article.type}}</a>
+                <a :href="`#/postlist/${article.typeName}`" class="headA">{{article.typeName}}</a>
             </div>
-            <h1>{{article.title}}</h1>
+            <h1>{{article.articleTitle}}</h1>
 
             <el-rate
             v-model="article.articleScore"
@@ -19,25 +19,26 @@
             </el-rate>
             <br>
             <div>
-                <small class="titleSmall">{{article.author}}</small>
-                <small class="titleSmall">{{article.time}}</small>             
+                <!-- <small class="titleSmall">{{article.source.sourceType}}</small> -->
+                <small class="titleSmall">{{getTime}}</small>
+                <small class="titleSmall"> 点击量:{{article.clickNumber}}</small>             
             </div>
         </div>
         <div class="articleSection">
-            <p v-html="article.content">
+            <p v-html="article.articleText">
             </p>
-            <img :src="article.imgUrl" alt="" id="articleImg">
+            <img :src="`./static/img/${article.articlePicUrl}`" alt="" id="articleImg">
         </div>
         <div class="articleFooter">
             <p>
-                来源 :{{article.source}}
+                <!-- 来源 :{{article.source.sourceName}} -->
             </p>
             <el-row class="footerBiaoQian">
                 <el-col :span="6">
                     <i class="iconfont icon-biaoqian"></i>
                     <ul class="listItem">
                         <li class="liTag" v-for="(item,index) in article.keywordWeights" :key="index">
-                            / <a class="biaoQianA" :href="`#/postlist/search/${item.keyword}`">{{item.keyword}}</a>
+                            / <a class="biaoQianA" :href="`#/postlist/search/${item.keywordName}`">{{item.keywordName}}</a>
                         </li>
                     </ul>
                 </el-col>
@@ -52,7 +53,7 @@
                 </el-col>
             </el-row>
         </div>
-        <comment :article="articleId" :userId="userId"></comment>
+        <comment :articleId="articleId" :userId="userId"></comment>
         <h3>相关推荐</h3>
         <blog v-for="blog in blogList" :key="blog.blogId" :article="blog" :keyword="keyword"></blog>
     </div>
@@ -68,6 +69,7 @@ export default {
             yourScore:null,
             keyword:'世界杯',
             page:0,
+            article:{},
             blogList: [
         
             ]
@@ -80,7 +82,34 @@ export default {
     methods : {
         
     },
-    props : ['articleId','article','userId']
+    props : ['articleId','userId'],
+    computed:{
+        getTime(){
+            let nowTimeStamp = Date.parse(new Date())
+            let date = new Date(this.article.articleTime)
+            let time = Date.parse(date)
+            let usedTime = nowTimeStamp-time
+            let days = Math.floor(usedTime/(24*3600*1000))
+            let hours = Math.floor(usedTime/(3600*1000))
+            let min = Math.floor(usedTime/(60*1000))
+            if(days>0) {
+                return '- '+days+'天前'
+            }
+            else if(hours>0){
+                return '- '+hours+'小时前'
+            }
+            else {
+                return '- '+min+'分钟前'
+            }
+        },
+    },
+    created(){
+        this.$http.get(`/api/article/${this.articleId}`).then( (response)=>{
+            this.article = response.data
+        },(response)=>{
+            console.log('连接失败！')
+        })
+    },
 }
 </script>
 

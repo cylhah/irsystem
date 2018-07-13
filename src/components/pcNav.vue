@@ -2,7 +2,7 @@
     <div>
         <div class="pcNav">
             <div class="userInfo">
-                <img :src="`./static/img/${userInfo.userHeadUrl}`" class="head">
+                <img :src="`${userInfo.userHeadUrl}`" class="head">
                 <div class="name">
                     <p>{{userInfo.userName}}</p>
                     <el-tag

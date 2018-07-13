@@ -62,7 +62,7 @@
 
 <script>
 export default {
-    props :['commentComment','userId','index'],
+    props :['commentComment','userId','index','articleId'],
     data () {
         return{
             commentNotNull:false
@@ -77,8 +77,8 @@ export default {
                 this.$http.post(
                     '/api/comment/replyCommentComment',
                     {
-                        articleId:1,
-                        userId:4,
+                        articleId:this.articleId,
+                        userId:2,
                         targetCommentId:this.commentComment.targetCommentId,
                         replyCommentId:this.commentComment.commentId,
                         commentText:this.commentComment.reply,
@@ -92,6 +92,7 @@ export default {
                     if(response.data==1){
                         console.log("评论成功!")
                         this.commentNotNull = false
+                        this.$emit("commentReplySuccess",this.index)
                     }
                     else{
                         console.log("评论失败")
@@ -113,7 +114,7 @@ export default {
                 this.$http.post(
                     '/api/commentUp/down',
                     {
-                        "userId":4,
+                        "userId":2,
                         "commentId":this.commentComment.commentId
                     },
                     {
@@ -137,7 +138,7 @@ export default {
                 this.$http.post(
                     '/api/commentUp/up',
                     {
-                        "userId":4,
+                        "userId":2,
                         "commentId":this.commentComment.commentId
                     },
                     {

@@ -63,8 +63,10 @@
             :index="index"
             :commentComment="commentComment"
             :userId="userId"
+            :articleId="articleId"
             @commentChange="commentChange"
             @commentCommentUp="commentCommentUp"
+            @commentReplySuccess="refreshReply"
             v-show="isreply"
             >
 
@@ -77,7 +79,7 @@
 import commentReply from './commentReply.vue'
 
 export default {
-    props :['userComment','index','userId'],
+    props :['userComment','index','userId','articleId'],
     components:{
         commentReply
     },
@@ -94,12 +96,29 @@ export default {
         }
     },
     methods : {
-        reply() {
-            this.isreply = !this.isreply
+        refreshReply(){
             let formData = new FormData()
             formData.append("commentId",this.userComment.commentId)
             formData.append("page",0)
-            formData.append("userId",4)
+            formData.append("userId",2)
+            this.$http.post(
+                '/api/comment/getCommentChild',
+                formData
+                ).then( (response) => {
+                    if(response.data!=null){
+                        this.commentComments = response.data
+                    }
+                }, (response) => {
+                    console.log("评论读取失败!")
+                })
+        },
+        reply() {
+            this.isreply = !this.isreply
+            this.$emit("replySuccess",this.index)
+            let formData = new FormData()
+            formData.append("commentId",this.userComment.commentId)
+            formData.append("page",0)
+            formData.append("userId",2)
             this.$http.post(
                 '/api/comment/getCommentChild',
                 formData
@@ -117,10 +136,10 @@ export default {
         submitTo() {
             if(this.userComment.reply!=null&&this.userComment.reply!=""){
                 this.$http.post(
-                    '/api/comment/replyCommentComment',
+                    '/api/comment/replyArticleComment',
                     {
-                        articleId:1,
-                        userId:4,
+                        articleId:this.articleId,
+                        userId:2,
                         targetCommentId:this.userComment.commentId,
                         replyCommentId:this.userComment.commentId,
                         commentText:this.userComment.reply,
@@ -134,6 +153,8 @@ export default {
                     if(response.data==1){
                         console.log("评论成功!")
                         this.commentNotNull = false
+                        this.userComment.reply = ""
+                        this.$emit("replySuccess",this.index)
                     }
                     else{
                         console.log("评论失败")
@@ -154,7 +175,7 @@ export default {
                 this.$http.post(
                     '/api/commentUp/down',
                     {
-                        userId: 4,
+                        userId: 2,
                         commentId: this.userComment.commentId
                     },
                     {
@@ -178,7 +199,7 @@ export default {
                 this.$http.post(
                     '/api/commentUp/up',
                     {
-                        userId:4,
+                        userId:2,
                         commentId:this.userComment.commentId
                     },
                     {
