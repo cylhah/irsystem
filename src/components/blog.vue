@@ -40,6 +40,7 @@ export default {
         return{
             collected: false,
             up: false,
+            userId:2,
             down: false,
             upOrDown: 0
         }
@@ -198,7 +199,7 @@ export default {
             return `#/article/${this.article.articleId}` 
         }
     },
-    props: ['article','keyword','userId'],
+    props: ['article','keyword',],
     created(){
         if(this.userId) {
             this.getCollection()

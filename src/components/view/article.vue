@@ -3,10 +3,10 @@
     <top :userId="userId"></top>
     <el-row class="maxWidth">
         <el-col :span="2" :offset="1">
-            <article-side :articleId="articleId"></article-side>
+            <article-side :articleId="articleId" :article="article"></article-side>
         </el-col>
         <el-col :span="16" >
-            <article-text :articleId="articleId" :userId="userId"></article-text>
+            <article-text :articleId="articleId" :article="article" :userId="userId"></article-text>
         </el-col>
         <el-col :span="4" :offset="1">
             <today-rec :recList="blogList"></today-rec>
@@ -25,6 +25,7 @@ export default {
     data () {
         return {
             articleId : this.$route.params.articleId,
+            article:{},
             blogList: [
         
       ]
@@ -36,7 +37,14 @@ export default {
         top,
         todayRec
     },
-    props: ['userId']
+    props: ['userId'],
+    created(){
+        this.$http.get(`/api/article/${this.articleId}`).then( (response)=>{
+            this.article = response.data
+        },(response)=>{
+            console.log('连接失败！')
+        })
+    },
 }
 </script>
 

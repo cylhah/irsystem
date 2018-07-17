@@ -119,9 +119,6 @@ export default {
                 emulateJSON: true
             }).then( (response)=>{
                 this.userList = response.data
-                for(let i=0;i<this.userList.length;i++){
-                    this.userList[i].userRegisTime = this.userList[i].userRegisTime.replace('T',' ').substr(0,16)
-                }
             },(response)=>{
                 console.log('连接失败！')
             })

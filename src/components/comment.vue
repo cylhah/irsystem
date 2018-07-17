@@ -34,6 +34,7 @@
         @change="change"
         @commentUp="commentUp"
         @replySuccess="refreshComment"
+        @childSuccess="refreshChild"
         >
         </comment-item>
     </div>
@@ -47,6 +48,7 @@ export default {
         return{
             comment:"",
             expandChoosed:0,
+            expandChild:0,
             page:0,
             commentNotNull:false,
             userComments : [
@@ -58,7 +60,7 @@ export default {
         commentItem
     },
     methods : {
-        refreshComment(){
+        refreshComment(index){
             let formData = new FormData()
             formData.append("articleId",this.articleId)
             formData.append("page",this.page)
@@ -92,6 +94,19 @@ export default {
             }
 
         },
+        refreshChild(index){
+            if (this.userComments[index].ifReply) {
+            this.userComments[index].ifReply = false
+            this.$set(this.userComments,index,this.userComments[index])                 
+            }
+            else{
+            this.userComments[this.expandChild].ifReply = false
+            this.$set(this.userComments,this.expandChild,this.userComments[this.expandChild])
+            this.userComments[index].ifReply = true
+            this.$set(this.userComments,index,this.userComments[index])       
+            this.expandChild = index
+            }
+        },
         commentUp(index) {
             if (this.userComments[index].upEd) {
                 this.userComments[index].upEd = false 
@@ -122,6 +137,7 @@ export default {
                     if(response.data==1){
                         console.log("评论成功!")
                         this.commentNotNull = false
+                        this.comment =""
                         let formData = new FormData()
                         formData.append("articleId",this.articleId)
                         formData.append("page",this.page)

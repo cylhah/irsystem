@@ -127,11 +127,6 @@ export default {
                 emulateJSON: true
             }).then( (response)=>{
                 this.articleList = response.data
-                for(let i=0;i<this.articleList.length;i++){
-                    // let tempDate = new Date(this.articleList[i].articleTime)
-                    // let temp = tempDate.getFullYear()+'-'+(tempDate.getMonth()+1)+'-'+tempDate.getDate()
-                    this.articleList[i].articleTime = this.articleList[i].articleTime.replace('T',' ').substr(0,16)
-                }
             },(response)=>{
                 console.log('连接失败！')
             })

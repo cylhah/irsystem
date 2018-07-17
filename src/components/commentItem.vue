@@ -22,7 +22,7 @@
             <div class="hoverSpan">
                 <span class="spanColor" @click="comment">回复</span>
                 <span class="spanColor" @click="reply" v-show="isHaveReply">·{{replyButton}}
-                    <i class="iconfont" :class="{'icon-xia-copy':isreply,'icon-xia':!isreply}">
+                    <i class="iconfont" :class="{'icon-xia-copy':userComment.ifReply,'icon-xia':!userComment.ifReply}">
                     </i>
                 </span>
                 <span
@@ -67,7 +67,7 @@
             @commentChange="commentChange"
             @commentCommentUp="commentCommentUp"
             @commentReplySuccess="refreshReply"
-            v-show="isreply"
+            v-show="userComment.ifReply"
             >
 
             </comment-reply>
@@ -85,7 +85,6 @@ export default {
     },
     data () {
         return {
-            isreply:false,
             isComment:false,
             isHaveReply:false,
             expandChoosed:0,
@@ -113,8 +112,6 @@ export default {
                 })
         },
         reply() {
-            this.isreply = !this.isreply
-            this.$emit("replySuccess",this.index)
             let formData = new FormData()
             formData.append("commentId",this.userComment.commentId)
             formData.append("page",0)
@@ -125,10 +122,13 @@ export default {
                 ).then( (response) => {
                     if(response.data!=null){
                         this.commentComments = response.data
+                        // this.$emit("replySuccess",this.index)
+                        this.$emit("childSuccess",this.index)
                     }
                 }, (response) => {
                     console.log("评论读取失败!")
                 })
+                
         },
         refresh() {
             this.userComment.reply = ""
@@ -250,7 +250,7 @@ export default {
     },
     computed : {
         replyButton () {
-            if (this.isreply) {
+            if (this.userComment.ifReply) {
                 return '收起回复'
             }
             else {

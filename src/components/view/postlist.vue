@@ -78,7 +78,18 @@ export default {
         })
       }
       else if (!this.type){
-        
+        let formData = new FormData()
+        formData.append("userId",2)
+        this.$http.post(
+          '/api/recommend/complex',
+          formData
+        ).then( (response) =>{
+          if(response.data!=null){
+            this.articleList = response.data
+          }
+        },(response) =>{
+          console.log("推荐失败!")
+        })
       }
       else {
         this.$http.get(`/api/article/typeId/${typeId}/topNum/10`).then( (response)=>{

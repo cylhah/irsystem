@@ -69,7 +69,6 @@ export default {
             yourScore:null,
             keyword:'世界杯',
             page:0,
-            article:{},
             blogList: [
         
             ]
@@ -82,7 +81,21 @@ export default {
     methods : {
         
     },
-    props : ['articleId','userId'],
+    props : ['articleId','userId','article'],
+    created(){
+        let formData = new FormData();
+        formData.append("articleId",this.articleId)
+        this.$http.post(
+            '/api/similar/recommend',
+            formData
+        ).then( (response) =>{
+            if(response.data!=null){
+                this.blogList = response.data
+            }
+        },(response) =>{
+            console.log("无文章或者请求失败!")
+        })
+    },
     computed:{
         getTime(){
             let nowTimeStamp = Date.parse(new Date())
@@ -102,14 +115,7 @@ export default {
                 return '- '+min+'分钟前'
             }
         },
-    },
-    created(){
-        this.$http.get(`/api/article/${this.articleId}`).then( (response)=>{
-            this.article = response.data
-        },(response)=>{
-            console.log('连接失败！')
-        })
-    },
+    }
 }
 </script>
 
